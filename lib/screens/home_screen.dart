@@ -11,9 +11,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool isValidateInput = false;
+  int userCoinsAmount = 13;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: NeumorphicAppBar(
         actions: <Widget>[
           IconButton(
@@ -55,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 8.0,
                         ),
-                        Text('123 coins')
+                        Text('$userCoinsAmount coins')
                       ],
                     ),
                   ),
@@ -66,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 54.0),
               child: Neumorphic(
                 child: TextField(
+                  keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                     labelText: 'Input your bid',
@@ -73,6 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontSize: 26.0,
                     ),
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      var inputValue = int.parse(value);
+                      if (inputValue < userCoinsAmount && inputValue is int) {
+                        isValidateInput = true;
+                      }
+                    });
+                  },
                 ),
               ),
             ),
@@ -101,11 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             NeumorphicButton(
-              onPressed: () {},
+              onPressed: isValidateInput ? () {} : null,
               child: Text(
                 'Play!',
                 style: TextStyle(
                   fontSize: 34,
+                  color: isValidateInput ? Colors.white : Colors.grey,
                 ),
               ),
             )
