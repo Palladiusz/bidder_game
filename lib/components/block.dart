@@ -15,9 +15,15 @@ class Block extends StatelessWidget {
             Text(
               upperText,
             ),
+            SizedBox(
+              height: 10.0,
+            ),
             Text(
               lowerText,
-              style: TextStyle(color: Colors.greenAccent),
+              style: TextStyle(
+                color: Colors.greenAccent,
+                fontSize: 22,
+              ),
             )
           ],
         ),

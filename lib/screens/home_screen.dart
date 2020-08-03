@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:bidder_game/components/block.dart';
+import 'package:bidder_game/screens/history_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = '/home_screen';
@@ -14,6 +15,24 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: NeumorphicAppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.arrow_right,
+              size: 50.0,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HistoryScreen(),
+                ),
+              );
+            },
+            tooltip: 'Move to history screen',
+          )
+        ],
         centerTitle: true,
         title: Text('Bidder Game'),
       ),
@@ -31,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ImageIcon(
                           AssetImage("icons/coins.png"),
                           size: 30.0,
+                          color: Colors.white,
                         ),
                         SizedBox(
                           height: 8.0,
@@ -42,20 +62,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            Neumorphic(
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'Input your bid',
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 54.0),
+              child: Neumorphic(
+                child: TextField(
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    labelText: 'Input your bid',
+                    labelStyle: TextStyle(
+                      fontSize: 26.0,
+                    ),
+                  ),
                 ),
               ),
             ),
-            NeumorphicSlider(
-              value: 50.0,
-              min: 1.0,
-              max: 99.0,
-              onChanged: (double newValue) {
-                setState(() {});
-              },
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: NeumorphicSlider(
+                value: 50.0,
+                min: 1.0,
+                max: 99.0,
+                onChanged: (double newValue) {
+                  setState(() {});
+                },
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -65,10 +95,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   lowerText: '72%',
                 ),
                 Block(
-                  upperText: 'Reward',
+                  upperText: 'Reward:',
                   lowerText: '34 coins',
                 ),
               ],
+            ),
+            NeumorphicButton(
+              onPressed: () {},
+              child: Text(
+                'Play!',
+                style: TextStyle(
+                  fontSize: 34,
+                ),
+              ),
             )
           ],
         ),

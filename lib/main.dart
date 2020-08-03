@@ -12,16 +12,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return NeumorphicApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       theme: NeumorphicThemeData(
         baseColor: Color(0xFFFFFFFF),
         lightSource: LightSource.topLeft,
-        depth: 10,
+        depth: 5,
       ),
       darkTheme: NeumorphicThemeData(
         baseColor: Color(0xFF3E3E3E),
         lightSource: LightSource.topLeft,
-        depth: 6,
+        depth: 4,
+        intensity: 0.6,
       ),
       initialRoute: HomeScreen.id,
       routes: {
