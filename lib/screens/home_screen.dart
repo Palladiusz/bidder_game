@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double _winChance = 0.5;
   int userBid;
   double reward = 12;
+  bool isWin;
 
   BidderService _bidderService = BidderService();
 
@@ -131,7 +132,36 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             NeumorphicButton(
-              onPressed: isValidateInput ? () {} : null,
+              onPressed: isValidateInput
+                  ? () {
+                      setState(() {
+                        isWin = _bidderService.play(_winChance);
+                        isWin
+                            ? userCoinsAmount += reward.toInt()
+                            : userCoinsAmount -= userBid;
+                      });
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => new AlertDialog(
+                          title: Text(
+                            isWin ? "You won!" : "You lose! :(",
+                            style: TextStyle(
+                                color: isWin ? Colors.green : Colors.red),
+                          ),
+                          content: Text(
+                              "You current coin amount is: $userCoinsAmount"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  : null,
               child: Text(
                 'Play!',
                 style: TextStyle(
