@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:bidder_game/components/block.dart';
 import 'package:bidder_game/screens/history_screen.dart';
+import 'package:bidder_game/components/bidder_service.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = '/home_screen';
@@ -13,6 +14,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isValidateInput = false;
   int userCoinsAmount = 13;
+  double _winChance = 50;
+  int userBid;
+
+  BidderService _bidderService = BidderService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    labelText: 'Input your bid',
+                    labelText: 'Insert your bid',
                     labelStyle: TextStyle(
                       fontSize: 26.0,
                     ),
@@ -82,29 +88,36 @@ class _HomeScreenState extends State<HomeScreen> {
                       var inputValue = int.parse(value);
                       if (inputValue < userCoinsAmount && inputValue is int) {
                         isValidateInput = true;
+                        userBid = inputValue;
                       }
                     });
                   },
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: NeumorphicSlider(
-                value: 50.0,
-                min: 1.0,
-                max: 99.0,
-                onChanged: (double newValue) {
-                  setState(() {});
-                },
-              ),
+            Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: NeumorphicSlider(
+                    value: this._winChance,
+                    min: 1,
+                    max: 99,
+                    onChanged: (value) {
+                      setState(() {
+                        _winChance = value;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Block(
                   upperText: 'Win chance:',
-                  lowerText: '72%',
+                  lowerText: '${_winChance.toInt()}%',
                 ),
                 Block(
                   upperText: 'Reward:',
