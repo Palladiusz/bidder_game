@@ -1,7 +1,7 @@
 class BidderService {
   double fee = 0.02;
 
-  calculateReward(int bidAmount, int winChance) =>
+  calculateReward(int bidAmount, double winChance) =>
       (bidAmount / winChance) * (1 - fee);
 }
 

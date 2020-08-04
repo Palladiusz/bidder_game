@@ -13,9 +13,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isValidateInput = false;
-  int userCoinsAmount = 13;
-  double _winChance = 50;
+  int userCoinsAmount = 100;
+  double _winChance = 0.5;
   int userBid;
+  double reward = 12;
 
   BidderService _bidderService = BidderService();
 
@@ -89,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (inputValue < userCoinsAmount && inputValue is int) {
                         isValidateInput = true;
                         userBid = inputValue;
+                        reward =
+                            _bidderService.calculateReward(userBid, _winChance);
                       }
                     });
                   },
@@ -100,12 +103,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: NeumorphicSlider(
-                    value: this._winChance,
-                    min: 1,
-                    max: 99,
+                    value: _winChance,
+                    min: 0.01,
+                    max: 0.99,
                     onChanged: (value) {
                       setState(() {
                         _winChance = value;
+                        reward =
+                            _bidderService.calculateReward(userBid, _winChance);
                       });
                     },
                   ),
@@ -117,11 +122,11 @@ class _HomeScreenState extends State<HomeScreen> {
               children: <Widget>[
                 Block(
                   upperText: 'Win chance:',
-                  lowerText: '${_winChance.toInt()}%',
+                  lowerText: '${(_winChance * 100).toInt()}%',
                 ),
                 Block(
                   upperText: 'Reward:',
-                  lowerText: '34 coins',
+                  lowerText: '${reward.toInt()} coins',
                 ),
               ],
             ),
