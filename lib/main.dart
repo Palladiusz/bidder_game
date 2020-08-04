@@ -16,13 +16,13 @@ class MyApp extends StatelessWidget {
       theme: NeumorphicThemeData(
         baseColor: Color(0xFFFFFFFF),
         lightSource: LightSource.topLeft,
-        depth: 5,
+        depth: -15,
       ),
       darkTheme: NeumorphicThemeData(
         baseColor: Color(0xFF3E3E3E),
         lightSource: LightSource.topLeft,
-        depth: 4,
-        intensity: 0.6,
+        depth: -3,
+        intensity: 0.8,
       ),
       initialRoute: HomeScreen.id,
       routes: {
