@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:bidder_game/data/moor_database.dart';
+
 class BidderService {
   double fee = 0.02;
 
@@ -15,5 +17,20 @@ class BidderService {
     } else {
       return true;
     }
+  }
+
+  void playMock(AppDatabase db) async {
+    await db.insertRecord(Record(
+        bidAmount: 2,
+        coinsAfterMatch: 99,
+        coinsBeforeMatch: 23,
+        coinsChangeAmount: 76,
+        date: DateTime.now(),
+        isWin: true,
+        winChance: 50,
+        id: null));
+
+    var records = await db.getAll();
+    print(records);
   }
 }

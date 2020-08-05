@@ -1,8 +1,10 @@
+import 'package:bidder_game/data/moor_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:bidder_game/components/block.dart';
 import 'package:bidder_game/screens/history_screen.dart';
 import 'package:bidder_game/components/bidder_service.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = '/home_screen';
@@ -23,30 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppDatabase db = Provider.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: NeumorphicAppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(
-              Icons.arrow_right,
-              size: 50.0,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HistoryScreen(),
-                ),
-              );
-            },
-            tooltip: 'Move to history screen',
-          )
-        ],
-        centerTitle: true,
-        title: Text('Bidder Game'),
-      ),
+      appBar: HomeAppBar(),
       body: Neumorphic(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -87,12 +69,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   onChanged: (value) {
                     setState(() {
-                      var inputValue = int.parse(value);
-                      if (inputValue < userCoinsAmount && inputValue is int) {
+                      var inputValue = int.tryParse(value);
+                      if (inputValue != null && inputValue < userCoinsAmount) {
                         isValidateInput = true;
                         userBid = inputValue;
                         reward =
                             _bidderService.calculateReward(userBid, _winChance);
+                      } else {
+                        isValidateInput = false;
                       }
                     });
                   },
@@ -110,8 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     onChanged: (value) {
                       setState(() {
                         _winChance = value;
-                        reward =
-                            _bidderService.calculateReward(userBid, _winChance);
+                        if (isValidateInput) {
+                          reward = _bidderService.calculateReward(
+                              userBid, _winChance);
+                        }
                       });
                     },
                   ),
@@ -140,26 +126,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? userCoinsAmount += reward.toInt()
                             : userCoinsAmount -= userBid;
                       });
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => new AlertDialog(
-                          title: Text(
-                            isWin ? "You won!" : "You lose! :(",
-                            style: TextStyle(
-                                color: isWin ? Colors.green : Colors.red),
-                          ),
-                          content: Text(
-                              "You current coin amount is: $userCoinsAmount"),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text("Close"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) => new AlertDialog(
+                      //     title: Text(
+                      //       isWin ? "You won!" : "You lose! :(",
+                      //       style: TextStyle(
+                      //           color: isWin ? Colors.green : Colors.red),
+                      //     ),
+                      //     content: Text(
+                      //         "You current coin amount is: $userCoinsAmount"),
+                      //     actions: <Widget>[
+                      //       FlatButton(
+                      //         child: Text("Close"),
+                      //         onPressed: () {
+                      //           Navigator.of(context).pop();
+                      //         },
+                      //       ),
+                      //     ],
+                      //   ),
+                      // );
+                      _bidderService.playMock(db);
                     }
                   : null,
               child: Text(
@@ -175,4 +162,35 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
+
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return NeumorphicAppBar(
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.arrow_right,
+            size: 50.0,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HistoryScreen(),
+              ),
+            );
+          },
+          tooltip: 'Move to history screen',
+        )
+      ],
+      centerTitle: true,
+      title: Text('Bidder Game'),
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(100);
 }
