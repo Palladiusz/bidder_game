@@ -1,4 +1,6 @@
+import 'package:bidder_game/components/coins_block.dart';
 import 'package:bidder_game/components/home_appbar.dart';
+import 'package:bidder_game/data/data.dart';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -22,6 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isWin;
 
   BidderService _bidderService = BidderService();
+  Data data = Data(
+      isValidateInput: false,
+      reward: 12,
+      userCoinsAmount: 1200,
+      winChance: 0.5);
 
   @override
   Widget build(BuildContext context) {
@@ -33,28 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Neumorphic(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: <Widget>[
-                        ImageIcon(
-                          AssetImage("icons/coins.png"),
-                          size: 30.0,
-                          color: Colors.white,
-                        ),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        Text('$userCoinsAmount coins')
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            CoinsBlock(userCoinsAmount: data.userCoinsAmount),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 54.0),
               child: Neumorphic(
