@@ -1,6 +1,7 @@
 import 'package:bidder_game/components/coins_block.dart';
 import 'package:bidder_game/components/home_appbar.dart';
 import 'package:bidder_game/components/input_field.dart';
+import 'package:bidder_game/components/slider_component.dart';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -39,6 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void toggleWinChance(value) {
+    setState(() {
+      winChance = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     AppDatabase db = Provider.of(context);
@@ -57,26 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
               winChance: winChance,
               toggleInputValue: toggleInputValue,
             ),
-            Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: NeumorphicSlider(
-                    value: winChance,
-                    min: 0.01,
-                    max: 0.99,
-                    onChanged: (value) {
-                      setState(() {
-                        winChance = value;
-                        if (isValidateInput) {
-                          reward = _bidderService.calculateReward(
-                              userBid, winChance);
-                        }
-                      });
-                    },
-                  ),
-                ),
-              ],
+            SliderComponent(
+              isValidateInput: isValidateInput,
+              rewardCallback: updateReward,
+              userBid: userBid,
+              winChanceCallback: toggleWinChance,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -136,41 +128,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// class InputField extends StatelessWidget {
-//   const InputField({
-//     Key key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.symmetric(horizontal: 54.0),
-//       child: Neumorphic(
-//         child: TextField(
-//           keyboardType: TextInputType.number,
-//           textAlign: TextAlign.center,
-//           decoration: InputDecoration(
-//             labelText: 'Insert your bid',
-//             labelStyle: TextStyle(
-//               fontSize: 26.0,
-//             ),
-//           ),
-//           onChanged: (value) {
-//             // setState(() {
-//             //   var inputValue = int.tryParse(value);
-//             //   if (inputValue != null && inputValue < userCoinsAmount) {
-//             //     isValidateInput = true;
-//             //     userBid = inputValue;
-//             //     reward =
-//             //         _bidderService.calculateReward(userBid, _winChance);
-//             //   } else {
-//             //     isValidateInput = false;
-//             //   }
-//             // });
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
