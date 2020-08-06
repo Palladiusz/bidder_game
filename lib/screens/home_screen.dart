@@ -1,12 +1,12 @@
 import 'package:bidder_game/components/coins_block.dart';
 import 'package:bidder_game/components/home_appbar.dart';
 import 'package:bidder_game/components/input_field.dart';
+import 'package:bidder_game/components/play_button.dart';
 import 'package:bidder_game/components/slider_component.dart';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:bidder_game/components/block.dart';
-import 'package:bidder_game/components/bidder_service.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,8 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int userBid;
   double reward = 12;
   bool isWin;
-
-  BidderService _bidderService = BidderService();
 
   void validationUpdate(bool val) {
     isValidateInput = val;
@@ -43,6 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void toggleWinChance(value) {
     setState(() {
       winChance = value;
+    });
+  }
+
+  void toggleCoins(value) {
+    setState(() {
+      userCoinsAmount = value;
     });
   }
 
@@ -83,44 +87,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            NeumorphicButton(
-              onPressed: isValidateInput
-                  ? () {
-                      setState(() {
-                        isWin = _bidderService.play(winChance);
-                        isWin
-                            ? userCoinsAmount += reward.toInt()
-                            : userCoinsAmount -= userBid;
-                      });
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) => new AlertDialog(
-                          title: Text(
-                            isWin ? "You won!" : "You lose! :(",
-                            style: TextStyle(
-                                color: isWin ? Colors.green : Colors.red),
-                          ),
-                          content: Text(
-                              "You current coin amount is: $userCoinsAmount"),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text("Close"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  : null,
-              child: Text(
-                'Play!',
-                style: TextStyle(
-                  fontSize: 34,
-                  color: isValidateInput ? Colors.white : Colors.grey,
-                ),
-              ),
+            PlayButton(
+              isValidateInput: isValidateInput,
+              coinsCallback: toggleCoins,
+              reward: reward,
+              userBid: userBid,
+              winChance: winChance,
+              userCoinsAmount: userCoinsAmount,
             )
           ],
         ),

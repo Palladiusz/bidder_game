@@ -19,6 +19,9 @@ class BidderService {
     }
   }
 
+  // void calculateWin(int reward, int coins) => coins += reward;
+  // void calculateLose(int bid, int coins) => coins -= bid;
+
   void playMock(AppDatabase db) async {
     await db.insertRecord(Record(
         bidAmount: 2,

@@ -9,10 +9,10 @@ class SliderComponent extends StatefulWidget {
       this.rewardCallback,
       this.userBid});
 
-  Function winChanceCallback;
-  Function rewardCallback;
-  bool isValidateInput;
-  int userBid;
+  final Function winChanceCallback;
+  final Function rewardCallback;
+  final bool isValidateInput;
+  final int userBid;
 
   @override
   _SliderComponentState createState() => _SliderComponentState();
@@ -21,6 +21,12 @@ class SliderComponent extends StatefulWidget {
 class _SliderComponentState extends State<SliderComponent> {
   BidderService _bidderService = BidderService();
   double winChance;
+  @override
+  void initState() {
+    winChance = 0.5;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
