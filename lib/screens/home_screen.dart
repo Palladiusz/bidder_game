@@ -1,6 +1,5 @@
 import 'package:bidder_game/components/coins_block.dart';
 import 'package:bidder_game/components/home_appbar.dart';
-import 'package:bidder_game/data/data.dart';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -24,11 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isWin;
 
   BidderService _bidderService = BidderService();
-  Data data = Data(
-      isValidateInput: false,
-      reward: 12,
-      userCoinsAmount: 1200,
-      winChance: 0.5);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            CoinsBlock(userCoinsAmount: data.userCoinsAmount),
+            CoinsBlock(userCoinsAmount: userCoinsAmount),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 54.0),
               child: Neumorphic(
@@ -112,27 +106,26 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? userCoinsAmount += reward.toInt()
                             : userCoinsAmount -= userBid;
                       });
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (BuildContext context) => new AlertDialog(
-                      //     title: Text(
-                      //       isWin ? "You won!" : "You lose! :(",
-                      //       style: TextStyle(
-                      //           color: isWin ? Colors.green : Colors.red),
-                      //     ),
-                      //     content: Text(
-                      //         "You current coin amount is: $userCoinsAmount"),
-                      //     actions: <Widget>[
-                      //       FlatButton(
-                      //         child: Text("Close"),
-                      //         onPressed: () {
-                      //           Navigator.of(context).pop();
-                      //         },
-                      //       ),
-                      //     ],
-                      //   ),
-                      // );
-                      _bidderService.playMock(db);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => new AlertDialog(
+                          title: Text(
+                            isWin ? "You won!" : "You lose! :(",
+                            style: TextStyle(
+                                color: isWin ? Colors.green : Colors.red),
+                          ),
+                          content: Text(
+                              "You current coin amount is: $userCoinsAmount"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
                     }
                   : null,
               child: Text(
