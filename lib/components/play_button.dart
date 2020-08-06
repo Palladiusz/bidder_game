@@ -1,6 +1,8 @@
 import 'package:bidder_game/components/bidder_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:provider/provider.dart';
+import 'package:bidder_game/data/moor_database.dart';
 
 class PlayButton extends StatelessWidget {
   const PlayButton(
@@ -26,6 +28,7 @@ class PlayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     int currentCoins = userCoinsAmount;
     BidderService _bidderService = BidderService();
+    AppDatabase db = Provider.of(context);
     return NeumorphicButton(
       onPressed: isValidateInput
           ? () {
@@ -33,6 +36,7 @@ class PlayButton extends StatelessWidget {
               isWin ? currentCoins += reward.toInt() : currentCoins -= userBid;
 
               coinsCallback(currentCoins);
+              _bidderService.playMock(db);
 
               showDialog(
                 context: context,

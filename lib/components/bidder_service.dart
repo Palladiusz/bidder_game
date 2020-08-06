@@ -23,7 +23,7 @@ class BidderService {
   // void calculateLose(int bid, int coins) => coins -= bid;
 
   void playMock(AppDatabase db) async {
-    await db.insertRecord(Record(
+    await db.recordsDao.insertRecord(Record(
         bidAmount: 2,
         coinsAfterMatch: 99,
         coinsBeforeMatch: 23,
@@ -33,7 +33,7 @@ class BidderService {
         winChance: 50,
         id: null));
 
-    var records = await db.getAll();
+    var records = await db.recordsDao.getAll();
     print(records);
   }
 }

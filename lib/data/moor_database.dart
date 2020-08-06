@@ -22,7 +22,7 @@ class Records extends Table {
 // Saldo po grze -
 // Zmiana salda -
 
-@UseMoor(tables: [Records])
+@UseMoor(tables: [Records], daos: [RecordsDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
@@ -30,6 +30,11 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
+}
+
+@UseDao(tables: [Records])
+class RecordsDao extends DatabaseAccessor<AppDatabase> with _$RecordsDaoMixin {
+  RecordsDao(AppDatabase db) : super(db);
 
   Future<List<Record>> getAll() => select(records).get();
   Stream<List<Record>> watchAll() => select(records).watch();

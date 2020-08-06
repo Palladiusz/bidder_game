@@ -515,8 +515,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $RecordsTable _records;
   $RecordsTable get records => _records ??= $RecordsTable(this);
+  RecordsDao _recordsDao;
+  RecordsDao get recordsDao => _recordsDao ??= RecordsDao(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [records];
+}
+
+// **************************************************************************
+// DaoGenerator
+// **************************************************************************
+
+mixin _$RecordsDaoMixin on DatabaseAccessor<AppDatabase> {
+  $RecordsTable get records => attachedDatabase.records;
 }

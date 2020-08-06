@@ -3,7 +3,7 @@ import 'package:bidder_game/components/home_appbar.dart';
 import 'package:bidder_game/components/input_field.dart';
 import 'package:bidder_game/components/play_button.dart';
 import 'package:bidder_game/components/slider_component.dart';
-import 'package:bidder_game/data/moor_database.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:bidder_game/components/block.dart';
@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    AppDatabase db = Provider.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: HomeAppBar(),
