@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class CoinsBlock extends StatelessWidget {
-  const CoinsBlock({
-    @required this.userCoinsAmount,
-  });
+  const CoinsBlock({@required this.userCoinsAmount});
 
   final int userCoinsAmount;
 
@@ -25,7 +23,7 @@ class CoinsBlock extends StatelessWidget {
                 SizedBox(
                   height: 8.0,
                 ),
-                Text('$userCoinsAmount coins')
+                Text('$userCoinsAmount coins'),
               ],
             ),
           ),

@@ -11,18 +11,16 @@ class PlayButton extends StatelessWidget {
       this.reward,
       this.userBid,
       this.winChance,
-      this.userCoinsAmount});
+      this.userCoinsAmount,
+      this.validationCallback});
 
   final bool isValidateInput;
   final double reward;
   final int userBid;
   final double winChance;
   final Function coinsCallback;
+  final Function validationCallback;
   final int userCoinsAmount;
-
-  // void userWin() {
-  //   userCoinsAmount +
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +42,11 @@ class PlayButton extends StatelessWidget {
                   isWin: isWin,
                   winChance: winChance);
               coinsCallback(currentCoins);
+              _bidderService.saveCoinsInSP(currentCoins);
+
+              if (userBid > currentCoins) {
+                validationCallback(false);
+              }
 
               showDialog(
                 context: context,
