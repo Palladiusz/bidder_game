@@ -1,3 +1,4 @@
+import 'package:bidder_game/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
@@ -23,56 +24,93 @@ class RecordCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Neumorphic(
-      child: Container(
-        color: isWin ? Colors.greenAccent : Colors.redAccent,
-        width: double.infinity,
-        height: 100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      style: NeumorphicStyle(
+        depth: -5,
+        intensity: 0.5,
+      ),
+      child: Column(
+        children: <Widget>[
+          Container(
+            color: isWin ? kbasicGreenColor : kbasicRedColor,
+            width: double.infinity,
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(
-                  '${DateFormat.yMd().format(date)}',
-                ),
-                Text(
-                  '${DateFormat.Hm().format(date)}',
-                )
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text(
-                  'Bid: $bid',
-                ),
-                Row(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      '$coinsBefore',
+                      '${DateFormat.yMd().format(date)}',
+                      style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(
-                      width: 10,
+                      height: 10,
                     ),
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 20,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('$coinsAfter')
+                    Text(
+                      '${DateFormat.Hm().format(date)}',
+                      style: TextStyle(fontSize: 22),
+                    )
                   ],
                 ),
-                Text(
-                  isWin ? '+ $coinsDiff' : '- $coinsDiff',
-                )
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      'Bid: $bid',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '$coinsBefore',
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 26,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          '$coinsAfter',
+                          style: TextStyle(fontSize: 22),
+                        )
+                      ],
+                    ),
+                    Text(
+                      isWin ? '+ $coinsDiff' : '- $coinsDiff',
+                      style: TextStyle(fontSize: 18),
+                    )
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('Win chance:'),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      '$winChance',
+                      style: TextStyle(
+                        fontSize: 24,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-            Text('$winChance'),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+        ],
       ),
     );
   }

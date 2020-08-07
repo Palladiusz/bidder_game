@@ -49,37 +49,51 @@ class _InputFieldState extends State<InputField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 54.0),
-      child: Neumorphic(
-        child: TextField(
-          controller: myController,
-          keyboardType: TextInputType.number,
-          textAlign: TextAlign.center,
-          decoration: InputDecoration(
-            labelText: 'Insert your bid',
-            labelStyle: TextStyle(
-              fontSize: 26.0,
-            ),
-          ),
-          onChanged: (value) {
-            setState(() {
-              var inputValue = int.tryParse(value);
-              if (inputValue != null && inputValue < widget.userCoinsAmount) {
-                validate = true;
-                widget.validation(validate);
-                int userBid = inputValue;
-
-                widget.rewardPass(
-                    _bidderService.calculateReward(userBid, widget.winChance));
-              } else {
-                validate = false;
-                widget.validation(validate);
-              }
-            });
-          },
+    return Column(
+      children: <Widget>[
+        Text('Input Your bid below:'),
+        SizedBox(
+          height: 9,
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 54.0),
+          child: Neumorphic(
+              style: NeumorphicStyle(
+                border: NeumorphicBorder(
+                  isEnabled: true,
+                  width: 4,
+                ),
+                depth: 3,
+                intensity: 0.2,
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Tap here, good luck!',
+                ),
+                controller: myController,
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 28),
+                onChanged: (value) {
+                  setState(() {
+                    var inputValue = int.tryParse(value);
+                    if (inputValue != null &&
+                        inputValue < widget.userCoinsAmount) {
+                      validate = true;
+                      widget.validation(validate);
+                      int userBid = inputValue;
+
+                      widget.rewardPass(_bidderService.calculateReward(
+                          userBid, widget.winChance));
+                    } else {
+                      validate = false;
+                      widget.validation(validate);
+                    }
+                  });
+                },
+              )),
+        ),
+      ],
     );
   }
 }

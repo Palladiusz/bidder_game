@@ -40,7 +40,7 @@ class BidderService {
           coinsAfterMatch: coinsAfter,
           coinsBeforeMatch: coinsBefore,
           coinsChangeAmount: coinsDiff,
-          date: DateTime.now(),
+          date: DateTime.now().toLocal(),
           isWin: isWin,
           winChance: winChance,
           id: null),

@@ -1,31 +1,23 @@
-import 'package:bidder_game/screens/history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  final Widget actionButton;
+
+  const MyAppBar({this.title, this.actionButton});
   @override
   Widget build(BuildContext context) {
     return NeumorphicAppBar(
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.arrow_right,
-            size: 50.0,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HistoryScreen(),
-              ),
-            );
-          },
-          tooltip: 'Move to history screen',
-        )
-      ],
+      color: Colors.black12,
+      actions: <Widget>[actionButton],
       centerTitle: true,
-      title: Text('Bidder Game'),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 28,
+        ),
+      ),
     );
   }
 

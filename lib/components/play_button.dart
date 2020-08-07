@@ -1,4 +1,5 @@
 import 'package:bidder_game/components/bidder_service.dart';
+import 'package:bidder_game/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
@@ -27,52 +28,70 @@ class PlayButton extends StatelessWidget {
     int currentCoins = userCoinsAmount;
     BidderService _bidderService = BidderService();
     AppDatabase db = Provider.of(context);
-    return NeumorphicButton(
-      onPressed: isValidateInput
-          ? () {
-              bool isWin = _bidderService.play(winChance);
-              isWin ? currentCoins += reward.toInt() : currentCoins -= userBid;
+    return Container(
+      height: 80,
+      width: double.infinity,
+      child: NeumorphicButton(
+        style: NeumorphicStyle(
+            depth: 2,
+            intensity: 0.5,
+            lightSource: LightSource.top,
+            color: Colors.black12),
+        onPressed: isValidateInput
+            ? () {
+                bool isWin = _bidderService.play(winChance);
+                isWin
+                    ? currentCoins += reward.toInt()
+                    : currentCoins -= userBid;
 
-              _bidderService.insertNewRecord(
-                  db: db,
-                  bid: userBid,
-                  coinsBefore: userCoinsAmount,
-                  coinsAfter: currentCoins,
-                  coinsDiff: (userCoinsAmount - currentCoins).abs(),
-                  isWin: isWin,
-                  winChance: winChance);
-              coinsCallback(currentCoins);
-              _bidderService.saveCoinsInSP(currentCoins);
+                _bidderService.insertNewRecord(
+                    db: db,
+                    bid: userBid,
+                    coinsBefore: userCoinsAmount,
+                    coinsAfter: currentCoins,
+                    coinsDiff: (userCoinsAmount - currentCoins).abs(),
+                    isWin: isWin,
+                    winChance: winChance);
+                coinsCallback(currentCoins);
+                _bidderService.saveCoinsInSP(currentCoins);
 
-              if (userBid > currentCoins) {
-                validationCallback(false);
-              }
+                if (userBid > currentCoins) {
+                  validationCallback(false);
+                }
 
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => new AlertDialog(
-                  title: Text(
-                    isWin ? "You won!" : "You lose! :(",
-                    style: TextStyle(color: isWin ? Colors.green : Colors.red),
-                  ),
-                  content: Text("You current coin amount is: $currentCoins"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("Close"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => new AlertDialog(
+                    title: Text(
+                      isWin ? "You won!" : "You lose! :(",
+                      style: TextStyle(
+                          color: isWin ? ktextGreenColor : ktextRedColor),
                     ),
-                  ],
-                ),
-              );
-            }
-          : null,
-      child: Text(
-        'Play!',
-        style: TextStyle(
-          fontSize: 34,
-          color: isValidateInput ? Colors.white : Colors.grey,
+                    content: Text("You current coin amount is: $currentCoins"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }
+            : null,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Play!',
+              style: TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+                color: isValidateInput ? Colors.white : Colors.grey,
+              ),
+            ),
+          ],
         ),
       ),
     );

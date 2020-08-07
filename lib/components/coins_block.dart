@@ -9,24 +9,38 @@ class CoinsBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Neumorphic(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
+        Column(
+          children: <Widget>[
+            SizedBox(
+              height: 15,
+            ),
+            ImageIcon(
+              AssetImage("icons/coins.png"),
+              size: 60.0,
+              color: Colors.white,
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
               children: <Widget>[
-                ImageIcon(
-                  AssetImage("icons/coins.png"),
-                  size: 30.0,
-                  color: Colors.white,
+                Text(
+                  '$userCoinsAmount',
+                  style: TextStyle(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                SizedBox(
-                  height: 8.0,
+                Text(
+                  'coins',
                 ),
-                Text('$userCoinsAmount coins'),
               ],
             ),
-          ),
+          ],
         ),
       ],
     );

@@ -15,30 +15,33 @@ class HistoryScreen extends StatelessWidget {
     BidderService _bidderService = BidderService();
 
     return Scaffold(
-      appBar: HomeAppBar(),
-      body: Neumorphic(
-        child: FutureBuilder(
-          future: _bidderService.getAllDb(db),
-          builder: (BuildContext context,
-              AsyncSnapshot<List<RecordViewModel>> snapshot) {
-            if (snapshot.hasData) {
-              return ListView(
-                children: snapshot.data
-                    .map((e) => RecordCard(
-                          bid: e.bid,
-                          coinsAfter: e.coinsAfter,
-                          coinsBefore: e.coinsBefore,
-                          coinsDiff: e.coinsDiff,
-                          isWin: e.isWin,
-                          winChance: e.winChance,
-                          date: e.date,
-                        ))
-                    .toList(),
-              );
-            }
-            return Container();
-          },
-        ),
+      appBar: MyAppBar(
+        title: 'History of Records',
+      ),
+      body: FutureBuilder(
+        future: _bidderService.getAllDb(db),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<RecordViewModel>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              shrinkWrap: true,
+              children: snapshot.data
+                  .map((e) => RecordCard(
+                        bid: e.bid,
+                        coinsAfter: e.coinsAfter,
+                        coinsBefore: e.coinsBefore,
+                        coinsDiff: e.coinsDiff,
+                        isWin: e.isWin,
+                        winChance: e.winChance,
+                        date: e.date,
+                      ))
+                  .toList()
+                  .reversed
+                  .toList(),
+            );
+          }
+          return Container();
+        },
       ),
     );
   }

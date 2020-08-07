@@ -24,11 +24,19 @@ class MyApp extends StatelessWidget {
           depth: -15,
         ),
         darkTheme: NeumorphicThemeData(
-          baseColor: Colors.grey[400],
-          lightSource: LightSource.topLeft,
-          depth: -3,
-          intensity: 0.8,
-        ),
+            appBarTheme: NeumorphicAppBarThemeData(
+              iconTheme: IconThemeData(color: Colors.white),
+              buttonStyle: NeumorphicStyle(
+                depth: 1,
+                intensity: 0.9,
+                lightSource: LightSource.top,
+              ),
+            ),
+            baseColor: Colors.grey[800],
+            lightSource: LightSource.topLeft,
+            depth: -3,
+            intensity: 0.8,
+            defaultTextColor: Colors.yellowAccent),
         initialRoute: HomeScreen.id,
         routes: {
           HomeScreen.id: (context) => HomeScreen(),

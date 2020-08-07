@@ -34,6 +34,17 @@ class _SliderComponentState extends State<SliderComponent> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: NeumorphicSlider(
+            style: SliderStyle(
+              border: NeumorphicBorder(width: 7),
+              accent: Colors.amberAccent,
+              variant: Colors.amber[100],
+              depth: -3,
+              thumbBorder: NeumorphicBorder(
+                color: Colors.black12,
+                width: 5,
+              ),
+              lightSource: LightSource.topLeft,
+            ),
             value: winChance,
             min: 0.01,
             max: 0.99,
