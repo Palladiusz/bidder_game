@@ -3,14 +3,28 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 
 class RecordCard extends StatelessWidget {
-  final DateTime date = DateTime.now();
-  var day = DateFormat.yMd().format(DateTime.now());
-  var hour = DateFormat.Hm().format(DateTime.now());
+  final DateTime date;
+  final String bid;
+  final String coinsBefore;
+  final String coinsAfter;
+  final String coinsDiff;
+  final String winChance;
+  final bool isWin;
+
+  const RecordCard(
+      {this.bid,
+      this.date,
+      this.coinsBefore,
+      this.coinsAfter,
+      this.coinsDiff,
+      this.winChance,
+      this.isWin});
+
   @override
   Widget build(BuildContext context) {
     return Neumorphic(
       child: Container(
-        color: Colors.redAccent,
+        color: isWin ? Colors.greenAccent : Colors.redAccent,
         width: double.infinity,
         height: 100,
         child: Row(
@@ -20,20 +34,24 @@ class RecordCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  '$day',
+                  '${DateFormat.yMd().format(date)}',
                 ),
                 Text(
-                  '$hour',
+                  '${DateFormat.Hm().format(date)}',
                 )
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text('Bid: 20'),
+                Text(
+                  'Bid: $bid',
+                ),
                 Row(
                   children: <Widget>[
-                    Text('100'),
+                    Text(
+                      '$coinsBefore',
+                    ),
                     SizedBox(
                       width: 10,
                     ),
@@ -44,13 +62,15 @@ class RecordCard extends StatelessWidget {
                     SizedBox(
                       width: 10,
                     ),
-                    Text('150')
+                    Text('$coinsAfter')
                   ],
                 ),
-                Text('+50')
+                Text(
+                  isWin ? '+ $coinsDiff' : '- $coinsDiff',
+                )
               ],
             ),
-            Text('50%'),
+            Text('$winChance'),
           ],
         ),
       ),

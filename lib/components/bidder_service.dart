@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bidder_game/data/moor_database.dart';
+import 'package:bidder_game/view_models/record_view_model.dart';
 
 class BidderService {
   double fee = 0.02;
@@ -19,21 +20,29 @@ class BidderService {
     }
   }
 
-  // void calculateWin(int reward, int coins) => coins += reward;
-  // void calculateLose(int bid, int coins) => coins -= bid;
+  Future<List<RecordViewModel>> getAllDb(AppDatabase db) async {
+    List<Record> recordList = await db.recordsDao.getAll();
+    return recordList.map((e) => RecordViewModel.fromRecord(e)).toList();
+  }
 
-  void playMock(AppDatabase db) async {
-    await db.recordsDao.insertRecord(Record(
-        bidAmount: 2,
-        coinsAfterMatch: 99,
-        coinsBeforeMatch: 23,
-        coinsChangeAmount: 76,
-        date: DateTime.now(),
-        isWin: true,
-        winChance: 50,
-        id: null));
-
-    var records = await db.recordsDao.getAll();
-    print(records);
+  void insertNewRecord(
+      {AppDatabase db,
+      bid,
+      coinsAfter,
+      coinsBefore,
+      coinsDiff,
+      isWin,
+      winChance}) async {
+    await db.recordsDao.insertRecord(
+      Record(
+          bidAmount: bid,
+          coinsAfterMatch: coinsAfter,
+          coinsBeforeMatch: coinsBefore,
+          coinsChangeAmount: coinsDiff,
+          date: DateTime.now(),
+          isWin: isWin,
+          winChance: winChance,
+          id: null),
+    );
   }
 }

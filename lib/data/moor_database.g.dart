@@ -12,7 +12,7 @@ class Record extends DataClass implements Insertable<Record> {
   final DateTime date;
   final bool isWin;
   final int bidAmount;
-  final int winChance;
+  final double winChance;
   final int coinsBeforeMatch;
   final int coinsAfterMatch;
   final int coinsChangeAmount;
@@ -31,6 +31,7 @@ class Record extends DataClass implements Insertable<Record> {
     final intType = db.typeSystem.forDartType<int>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final boolType = db.typeSystem.forDartType<bool>();
+    final doubleType = db.typeSystem.forDartType<double>();
     return Record(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       date:
@@ -38,8 +39,8 @@ class Record extends DataClass implements Insertable<Record> {
       isWin: boolType.mapFromDatabaseResponse(data['${effectivePrefix}is_win']),
       bidAmount:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}bid_amount']),
-      winChance:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}win_chance']),
+      winChance: doubleType
+          .mapFromDatabaseResponse(data['${effectivePrefix}win_chance']),
       coinsBeforeMatch: intType.mapFromDatabaseResponse(
           data['${effectivePrefix}coins_before_match']),
       coinsAfterMatch: intType
@@ -64,7 +65,7 @@ class Record extends DataClass implements Insertable<Record> {
       map['bid_amount'] = Variable<int>(bidAmount);
     }
     if (!nullToAbsent || winChance != null) {
-      map['win_chance'] = Variable<int>(winChance);
+      map['win_chance'] = Variable<double>(winChance);
     }
     if (!nullToAbsent || coinsBeforeMatch != null) {
       map['coins_before_match'] = Variable<int>(coinsBeforeMatch);
@@ -110,7 +111,7 @@ class Record extends DataClass implements Insertable<Record> {
       date: serializer.fromJson<DateTime>(json['date']),
       isWin: serializer.fromJson<bool>(json['isWin']),
       bidAmount: serializer.fromJson<int>(json['bidAmount']),
-      winChance: serializer.fromJson<int>(json['winChance']),
+      winChance: serializer.fromJson<double>(json['winChance']),
       coinsBeforeMatch: serializer.fromJson<int>(json['coinsBeforeMatch']),
       coinsAfterMatch: serializer.fromJson<int>(json['coinsAfterMatch']),
       coinsChangeAmount: serializer.fromJson<int>(json['coinsChangeAmount']),
@@ -124,7 +125,7 @@ class Record extends DataClass implements Insertable<Record> {
       'date': serializer.toJson<DateTime>(date),
       'isWin': serializer.toJson<bool>(isWin),
       'bidAmount': serializer.toJson<int>(bidAmount),
-      'winChance': serializer.toJson<int>(winChance),
+      'winChance': serializer.toJson<double>(winChance),
       'coinsBeforeMatch': serializer.toJson<int>(coinsBeforeMatch),
       'coinsAfterMatch': serializer.toJson<int>(coinsAfterMatch),
       'coinsChangeAmount': serializer.toJson<int>(coinsChangeAmount),
@@ -136,7 +137,7 @@ class Record extends DataClass implements Insertable<Record> {
           DateTime date,
           bool isWin,
           int bidAmount,
-          int winChance,
+          double winChance,
           int coinsBeforeMatch,
           int coinsAfterMatch,
           int coinsChangeAmount}) =>
@@ -199,7 +200,7 @@ class RecordsCompanion extends UpdateCompanion<Record> {
   final Value<DateTime> date;
   final Value<bool> isWin;
   final Value<int> bidAmount;
-  final Value<int> winChance;
+  final Value<double> winChance;
   final Value<int> coinsBeforeMatch;
   final Value<int> coinsAfterMatch;
   final Value<int> coinsChangeAmount;
@@ -218,7 +219,7 @@ class RecordsCompanion extends UpdateCompanion<Record> {
     @required DateTime date,
     @required bool isWin,
     @required int bidAmount,
-    @required int winChance,
+    @required double winChance,
     @required int coinsBeforeMatch,
     @required int coinsAfterMatch,
     @required int coinsChangeAmount,
@@ -234,7 +235,7 @@ class RecordsCompanion extends UpdateCompanion<Record> {
     Expression<DateTime> date,
     Expression<bool> isWin,
     Expression<int> bidAmount,
-    Expression<int> winChance,
+    Expression<double> winChance,
     Expression<int> coinsBeforeMatch,
     Expression<int> coinsAfterMatch,
     Expression<int> coinsChangeAmount,
@@ -256,7 +257,7 @@ class RecordsCompanion extends UpdateCompanion<Record> {
       Value<DateTime> date,
       Value<bool> isWin,
       Value<int> bidAmount,
-      Value<int> winChance,
+      Value<double> winChance,
       Value<int> coinsBeforeMatch,
       Value<int> coinsAfterMatch,
       Value<int> coinsChangeAmount}) {
@@ -288,7 +289,7 @@ class RecordsCompanion extends UpdateCompanion<Record> {
       map['bid_amount'] = Variable<int>(bidAmount.value);
     }
     if (winChance.present) {
-      map['win_chance'] = Variable<int>(winChance.value);
+      map['win_chance'] = Variable<double>(winChance.value);
     }
     if (coinsBeforeMatch.present) {
       map['coins_before_match'] = Variable<int>(coinsBeforeMatch.value);
@@ -368,11 +369,11 @@ class $RecordsTable extends Records with TableInfo<$RecordsTable, Record> {
   }
 
   final VerificationMeta _winChanceMeta = const VerificationMeta('winChance');
-  GeneratedIntColumn _winChance;
+  GeneratedRealColumn _winChance;
   @override
-  GeneratedIntColumn get winChance => _winChance ??= _constructWinChance();
-  GeneratedIntColumn _constructWinChance() {
-    return GeneratedIntColumn(
+  GeneratedRealColumn get winChance => _winChance ??= _constructWinChance();
+  GeneratedRealColumn _constructWinChance() {
+    return GeneratedRealColumn(
       'win_chance',
       $tableName,
       false,

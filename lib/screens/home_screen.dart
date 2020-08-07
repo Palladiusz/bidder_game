@@ -53,13 +53,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: HomeAppBar(),
-      body: Neumorphic(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             CoinsBlock(userCoinsAmount: userCoinsAmount),
+            SizedBox(
+              height: 30,
+            ),
             InputField(
               rewardPass: updateReward,
               userCoinsAmount: userCoinsAmount,
@@ -67,11 +70,17 @@ class _HomeScreenState extends State<HomeScreen> {
               winChance: winChance,
               toggleInputValue: toggleInputValue,
             ),
+            SizedBox(
+              height: 30,
+            ),
             SliderComponent(
               isValidateInput: isValidateInput,
               rewardCallback: updateReward,
               userBid: userBid,
               winChanceCallback: toggleWinChance,
+            ),
+            SizedBox(
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -85,6 +94,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   lowerText: '${reward.toInt()} coins',
                 ),
               ],
+            ),
+            SizedBox(
+              height: 30,
             ),
             PlayButton(
               isValidateInput: isValidateInput,

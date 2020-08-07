@@ -35,8 +35,15 @@ class PlayButton extends StatelessWidget {
               bool isWin = _bidderService.play(winChance);
               isWin ? currentCoins += reward.toInt() : currentCoins -= userBid;
 
+              _bidderService.insertNewRecord(
+                  db: db,
+                  bid: userBid,
+                  coinsBefore: userCoinsAmount,
+                  coinsAfter: currentCoins,
+                  coinsDiff: (userCoinsAmount - currentCoins).abs(),
+                  isWin: isWin,
+                  winChance: winChance);
               coinsCallback(currentCoins);
-              _bidderService.playMock(db);
 
               showDialog(
                 context: context,

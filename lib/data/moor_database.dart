@@ -8,7 +8,7 @@ class Records extends Table {
   DateTimeColumn get date => dateTime()();
   BoolColumn get isWin => boolean()();
   IntColumn get bidAmount => integer()();
-  IntColumn get winChance => integer()();
+  RealColumn get winChance => real()();
   IntColumn get coinsBeforeMatch => integer()();
   IntColumn get coinsAfterMatch => integer()();
   IntColumn get coinsChangeAmount => integer()();
