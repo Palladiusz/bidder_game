@@ -6,15 +6,7 @@ class PlayButton extends StatelessWidget {
   const PlayButton({this.playTapped, this.isInputValid});
 
   final bool isInputValid;
-  // final double reward;
-  // final int userBid;
-  // final double winChance;
-
-  // final int userCoins;
-
   final void Function() playTapped;
-
-  //final Function(RecordViewModel) gameResultCallback;
 
   @override
   Widget build(BuildContext context) {
