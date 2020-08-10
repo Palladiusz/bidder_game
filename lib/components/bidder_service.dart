@@ -4,21 +4,56 @@ import 'package:bidder_game/data/moor_database.dart';
 import 'package:bidder_game/view_models/record_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../view_models/record_view_model.dart';
+
+//TODO: Move bidder_service to services folder
 class BidderService {
-  double fee = 0.02;
+  //TODO: Make it private
+  final double fee = 0.02;
 
-  calculateReward(int bidAmount, double winChance) =>
-      (bidAmount / winChance) * (1 - fee);
+  int currentCoins;
 
-  bool play(double winChance) {
+  double calculateReward(int bidAmount, double winChance) {
+    if (bidAmount == null || winChance == null) {
+      return null;
+    }
+    return (bidAmount / winChance) * (1 - fee);
+  }
+
+  int tryParseAndValidateUserBid(String bid) {
+    final userBid = int.tryParse(bid);
+    if (currentCoins == null || userBid == null) {
+      return null;
+    }
+
+    if (currentCoins < userBid) {
+      return null;
+    }
+
+    return userBid;
+  }
+
+  Future<RecordViewModel> play(
+      double winChance, int userBid, AppDatabase db) async {
     Random random = new Random();
     var randomNum = random.nextDouble();
 
-    if (randomNum >= winChance) {
-      return false;
-    } else {
-      return true;
-    }
+    bool isWin = randomNum >= winChance;
+    final coinsBefore = currentCoins;
+    final reward = calculateReward(userBid, winChance);
+    isWin ? currentCoins += reward.toInt() - userBid : currentCoins -= userBid;
+
+    Record record = await insertNewRecord(
+      db: db,
+      bid: userBid,
+      coinsBefore: coinsBefore,
+      coinsAfter: currentCoins,
+      coinsDiff: (coinsBefore - currentCoins).abs(),
+      isWin: isWin,
+      winChance: winChance,
+    );
+    saveCoinsInSP(currentCoins);
+    return RecordViewModel.fromRecord(record);
   }
 
   Future<List<RecordViewModel>> getAllDb(AppDatabase db) async {
@@ -26,7 +61,7 @@ class BidderService {
     return recordList.map((e) => RecordViewModel.fromRecord(e)).toList();
   }
 
-  void insertNewRecord(
+  Future<Record> insertNewRecord(
       {AppDatabase db,
       bid,
       coinsAfter,
@@ -34,27 +69,29 @@ class BidderService {
       coinsDiff,
       isWin,
       winChance}) async {
-    await db.recordsDao.insertRecord(
-      Record(
-          bidAmount: bid,
-          coinsAfterMatch: coinsAfter,
-          coinsBeforeMatch: coinsBefore,
-          coinsChangeAmount: coinsDiff,
-          date: DateTime.now().toLocal(),
-          isWin: isWin,
-          winChance: winChance,
-          id: null),
-    );
+    final record = Record(
+        bidAmount: bid,
+        coinsAfterMatch: coinsAfter,
+        coinsBeforeMatch: coinsBefore,
+        coinsChangeAmount: coinsDiff,
+        date: DateTime.now().toLocal(),
+        isWin: isWin,
+        winChance: winChance,
+        id: null);
+    await db.recordsDao.insertRecord(record);
+    return record;
   }
 
   void saveCoinsInSP(coinsAmount) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    //TODO: Move 'coins' to constants name
     prefs.setInt('coins', coinsAmount);
   }
 
   Future<int> getCoinsFromSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int coins = prefs.getInt('coins');
+    currentCoins = coins;
     return coins;
   }
 }

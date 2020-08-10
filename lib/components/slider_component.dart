@@ -1,87 +1,38 @@
-import 'package:bidder_game/components/bidder_service.dart';
-import 'package:bidder_game/components/slider_button.dart';
-import 'package:bidder_game/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-class SliderComponent extends StatefulWidget {
-  SliderComponent(
-      {this.winChanceCallback,
-      this.isValidateInput,
-      this.rewardCallback,
-      this.userBid,
-      this.winChance});
+import '../constants.dart';
+import 'slider_button.dart';
+import 'slider_widget.dart';
 
-  final Function winChanceCallback;
-  final Function rewardCallback;
-  final bool isValidateInput;
-  final int userBid;
+class SliderComponent extends StatelessWidget {
+  const SliderComponent({
+    Key key,
+    @required this.winChance,
+    this.onChangeCallback,
+  }) : super(key: key);
+
   final double winChance;
-
-  @override
-  _SliderComponentState createState() => _SliderComponentState();
-}
-
-class _SliderComponentState extends State<SliderComponent> {
-  BidderService _bidderService = BidderService();
-  double winChance;
-  @override
-  void initState() {
-    winChance = 0.5;
-    super.initState();
-  }
+  final Function(double) onChangeCallback;
 
   @override
   Widget build(BuildContext context) {
-    void updateSlider(value) {
-      widget.winChanceCallback(value);
-      winChance = value;
-      if (widget.isValidateInput) {
-        widget.rewardCallback(
-            _bidderService.calculateReward(widget.userBid, winChance));
-      }
-    }
-
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: [
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Row(children: [
           SliderButton(
             icon: Icon(
               Icons.exposure_neg_1,
               color: ktextRedColor,
             ),
             onPress: () {
-              setState(() {
-                if (winChance > 0.02) {
-                  winChance -= 0.01;
-                  updateSlider(winChance);
-                }
-              });
+              if (winChance > 0.02) {
+                onChangeCallback(winChance - 0.01);
+              }
             },
           ),
-          Expanded(
-            child: NeumorphicSlider(
-              style: SliderStyle(
-                border: NeumorphicBorder(width: 4),
-                accent: Colors.amberAccent,
-                variant: Colors.amber[100],
-                depth: -3,
-                thumbBorder: NeumorphicBorder(
-                  color: Colors.black12,
-                  width: 5,
-                ),
-                lightSource: LightSource.topLeft,
-              ),
-              value: winChance,
-              min: 0.01,
-              max: 0.99,
-              onChanged: (value) {
-                setState(() {
-                  updateSlider(value);
-                });
-              },
-            ),
+          SliderWidget(
+            value: winChance,
+            onChangeCallback: onChangeCallback,
           ),
           SliderButton(
             icon: Icon(
@@ -89,16 +40,11 @@ class _SliderComponentState extends State<SliderComponent> {
               color: ktextGreenColor,
             ),
             onPress: () {
-              setState(() {
-                if (winChance < 0.99) {
-                  winChance += 0.01;
-                  updateSlider(winChance);
-                }
-              });
+              if (winChance < 0.99) {
+                onChangeCallback(winChance + 0.01);
+              }
             },
           ),
-        ],
-      ),
-    );
+        ]));
   }
 }

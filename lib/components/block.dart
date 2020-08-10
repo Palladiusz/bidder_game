@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class Block extends StatelessWidget {
-  Block({this.upperText, this.lowerText, this.textColor});
   final String upperText;
   final String lowerText;
   final Color textColor;
+
+  Block({this.upperText, this.lowerText, this.textColor});
+
   @override
   Widget build(BuildContext context) {
     return Neumorphic(

@@ -23,6 +23,7 @@ class RecordCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: Split to smaller widgets
     return Neumorphic(
       style: NeumorphicStyle(
         depth: -5,

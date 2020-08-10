@@ -17,6 +17,7 @@ class RecordViewModel {
       this.coinsDiff,
       this.isWin,
       this.winChance});
+
   RecordViewModel.fromRecord(Record record)
       : isWin = record.isWin,
         bid = record.bidAmount.toString(),

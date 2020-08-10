@@ -11,7 +11,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return NeumorphicAppBar(
       color: kDarkerAccent,
-      actions: <Widget>[actionButton],
+      actions: [actionButton],
       centerTitle: true,
       title: Text(
         title,

@@ -9,9 +9,11 @@ import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatelessWidget {
   static const String id = '/history_screen';
+
   @override
   Widget build(BuildContext context) {
     AppDatabase db = Provider.of(context);
+    //TODO: Move bidder service out of build method
     BidderService _bidderService = BidderService();
 
     return Scaffold(
@@ -36,6 +38,7 @@ class HistoryScreen extends StatelessWidget {
                         date: e.date,
                       ))
                   .toList()
+                  //TODO: Instead of reversing it here, please implement it in service - sort method in db by ID descending
                   .reversed
                   .toList(),
             );
