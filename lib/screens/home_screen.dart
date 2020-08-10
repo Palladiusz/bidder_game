@@ -51,13 +51,7 @@ class HomeScreenViewModel {
 class _HomeScreenState extends State<HomeScreen> {
   BidderService _bidderService = BidderService();
   TextEditingController inputCtrl = TextEditingController();
-  HomeScreenViewModel vm = HomeScreenViewModel(
-      winChance: 0.5,
-      isValidateInput: false,
-      lastGame: null,
-      userCoinsAmount: 100);
-
-  get ktextGreenColor => null;
+  HomeScreenViewModel vm = HomeScreenViewModel();
 
   @override
   void initState() {

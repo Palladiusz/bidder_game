@@ -24,22 +24,19 @@ class CoinsBlock extends StatelessWidget {
             SizedBox(
               height: 8.0,
             ),
-            //TODO: Use RichText+TextSpan widget instead of Row structure
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: <Widget>[
-                Text(
-                  '$userCoinsAmount',
+            RichText(
+              text: TextSpan(children: [
+                TextSpan(
+                  text: '$userCoinsAmount',
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Text(
-                  'coins',
-                ),
-              ],
+                TextSpan(
+                  text: ' coins',
+                )
+              ]),
             ),
           ],
         ),
