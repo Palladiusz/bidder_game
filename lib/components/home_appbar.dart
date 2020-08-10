@@ -15,12 +15,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: TextStyle(
-          fontSize: 28,
+          fontSize: 24,
         ),
       ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(100);
+  Size get preferredSize => Size.fromHeight(80);
 }

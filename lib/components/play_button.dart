@@ -29,7 +29,7 @@ class PlayButton extends StatelessWidget {
     BidderService _bidderService = BidderService();
     AppDatabase db = Provider.of(context);
     return Container(
-      height: 80,
+      height: 60,
       width: double.infinity,
       child: NeumorphicButton(
         style: NeumorphicStyle(
@@ -87,7 +87,7 @@ class PlayButton extends StatelessWidget {
             Text(
               'Play!',
               style: TextStyle(
-                fontSize: 48,
+                fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: isValidateInput ? Colors.white : Colors.grey,
               ),

@@ -16,7 +16,7 @@ class MoveToHistoryButton extends StatelessWidget {
       ),
       child: Icon(
         Icons.event_note,
-        size: 50.0,
+        size: 40.0,
         color: Colors.white,
       ),
       onPressed: () {

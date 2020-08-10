@@ -19,8 +19,7 @@ class CoinsBlock extends StatelessWidget {
             ImageIcon(
               AssetImage("icons/coins.png"),
               size: 60.0,
-              color: Colors.white,
-              //TODO change color to gold
+              color: Color(0xffDAA520),
             ),
             SizedBox(
               height: 8.0,
