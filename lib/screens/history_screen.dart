@@ -9,19 +9,18 @@ import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatelessWidget {
   static const String id = '/history_screen';
+  BidderService _bidderService = BidderService();
 
   @override
   Widget build(BuildContext context) {
     AppDatabase db = Provider.of(context);
-    //TODO: Move bidder service out of build method
-    BidderService _bidderService = BidderService();
 
     return Scaffold(
       appBar: MyAppBar(
         title: 'History of Records',
       ),
-      body: FutureBuilder(
-        future: _bidderService.getAllDb(db),
+      body: StreamBuilder(
+        stream: _bidderService.watchAll(db),
         builder: (BuildContext context,
             AsyncSnapshot<List<RecordViewModel>> snapshot) {
           if (snapshot.hasData) {

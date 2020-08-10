@@ -5,6 +5,7 @@ import 'package:bidder_game/view_models/record_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../view_models/record_view_model.dart';
+import '../view_models/record_view_model.dart';
 
 //TODO: Move bidder_service to services folder
 class BidderService {
@@ -38,7 +39,7 @@ class BidderService {
     Random random = new Random();
     var randomNum = random.nextDouble();
 
-    bool isWin = randomNum >= winChance;
+    bool isWin = randomNum <= winChance;
     final coinsBefore = currentCoins;
     final reward = calculateReward(userBid, winChance);
     isWin ? currentCoins += reward.toInt() - userBid : currentCoins -= userBid;
@@ -59,6 +60,11 @@ class BidderService {
   Future<List<RecordViewModel>> getAllDb(AppDatabase db) async {
     List<Record> recordList = await db.recordsDao.getAll();
     return recordList.map((e) => RecordViewModel.fromRecord(e)).toList();
+  }
+
+  Stream<List<RecordViewModel>> watchAll(AppDatabase db) {
+    return db.recordsDao.watchAll().map(
+        (events) => events.map((e) => RecordViewModel.fromRecord(e)).toList());
   }
 
   Future<Record> insertNewRecord(
