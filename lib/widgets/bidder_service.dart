@@ -12,7 +12,7 @@ class BidderService {
   //TODO: Make it private
   final double fee = 0.02;
 
-  int currentCoins;
+  int currentCoins = 100;
 
   double calculateReward(int bidAmount, double winChance) {
     if (bidAmount == null || winChance == null) {
@@ -97,7 +97,10 @@ class BidderService {
   Future<int> getCoinsFromSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int coins = prefs.getInt('coins');
-    currentCoins = coins;
+    if (coins == null) {
+      saveCoinsInSP(100);
+    }
+    currentCoins = coins ?? 100;
     return coins;
   }
 }
