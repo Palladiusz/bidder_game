@@ -1,3 +1,4 @@
+import 'package:bidder_game/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
@@ -9,7 +10,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphicAppBar(
-      color: Colors.black12,
+      color: kDarkerAccent,
       actions: <Widget>[actionButton],
       centerTitle: true,
       title: Text(

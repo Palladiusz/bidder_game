@@ -33,10 +33,11 @@ class PlayButton extends StatelessWidget {
       width: double.infinity,
       child: NeumorphicButton(
         style: NeumorphicStyle(
-            depth: 2,
-            intensity: 0.5,
-            lightSource: LightSource.top,
-            color: Colors.black12),
+          depth: 2,
+          intensity: 0.5,
+          lightSource: LightSource.top,
+          color: kDarkerAccent,
+        ),
         onPressed: isValidateInput
             ? () {
                 bool isWin = _bidderService.play(winChance);
