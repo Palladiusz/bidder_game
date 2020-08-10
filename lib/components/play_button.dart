@@ -59,6 +59,7 @@ class PlayButton extends StatelessWidget {
                   validationCallback(false);
                 }
 
+//TODO Implement lose mechanism
                 showDialog(
                   context: context,
                   builder: (BuildContext context) => new AlertDialog(

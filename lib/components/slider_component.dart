@@ -34,6 +34,7 @@ class _SliderComponentState extends State<SliderComponent> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: NeumorphicSlider(
+            //TODO add + and - buttons
             style: SliderStyle(
               border: NeumorphicBorder(width: 7),
               accent: Colors.amberAccent,
