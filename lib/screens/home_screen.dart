@@ -1,15 +1,15 @@
-import 'package:bidder_game/components/bidder_service.dart';
-import 'package:bidder_game/components/coins_block.dart';
-import 'package:bidder_game/components/game_summary_widget.dart';
-import 'package:bidder_game/components/home_appbar.dart';
-import 'package:bidder_game/components/input_field.dart';
-import 'package:bidder_game/components/move_to_history.dart';
-import 'package:bidder_game/components/play_button.dart';
+import 'package:bidder_game/widgets/bidder_service.dart';
+import 'package:bidder_game/widgets/coins_block.dart';
+import 'package:bidder_game/widgets/game_summary_widget.dart';
+import 'package:bidder_game/widgets/home_appbar.dart';
+import 'package:bidder_game/widgets/input_field.dart';
+import 'package:bidder_game/widgets/move_to_history.dart';
+import 'package:bidder_game/widgets/play_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 
-import '../components/slider_component.dart';
+import '../widgets/slider_component.dart';
 import '../constants.dart';
 import '../data/moor_database.dart';
 import '../view_models/record_view_model.dart';
@@ -21,6 +21,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+//TODO: Move to view models
 class HomeScreenViewModel {
   final bool isValidateInput;
   final int userCoinsAmount;
@@ -183,8 +184,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SliderComponent(
               winChance: vm.winChance,
-              onChangeCallback: (value) =>
-                  updateViewModel(vm.copyWith(winChance: value)),
+              onChangeCallback: (value) {
+                updateViewModel(vm.copyWith(winChance: value));
+              },
             ),
             SizedBox(
               height: 40,

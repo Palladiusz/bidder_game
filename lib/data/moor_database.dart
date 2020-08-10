@@ -32,6 +32,7 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 }
 
+//TODO: Move to separate file records_dao.dart
 @UseDao(tables: [Records])
 class RecordsDao extends DatabaseAccessor<AppDatabase> with _$RecordsDaoMixin {
   RecordsDao(AppDatabase db) : super(db);
