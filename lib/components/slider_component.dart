@@ -9,12 +9,14 @@ class SliderComponent extends StatefulWidget {
       {this.winChanceCallback,
       this.isValidateInput,
       this.rewardCallback,
-      this.userBid});
+      this.userBid,
+      this.winChance});
 
   final Function winChanceCallback;
   final Function rewardCallback;
   final bool isValidateInput;
   final int userBid;
+  final double winChance;
 
   @override
   _SliderComponentState createState() => _SliderComponentState();

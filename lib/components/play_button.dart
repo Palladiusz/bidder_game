@@ -13,7 +13,8 @@ class PlayButton extends StatelessWidget {
       this.userBid,
       this.winChance,
       this.userCoinsAmount,
-      this.validationCallback});
+      this.validationCallback,
+      this.restart});
 
   final bool isValidateInput;
   final double reward;
@@ -21,6 +22,7 @@ class PlayButton extends StatelessWidget {
   final double winChance;
   final Function coinsCallback;
   final Function validationCallback;
+  final Function restart;
   final int userCoinsAmount;
 
   @override
@@ -60,26 +62,54 @@ class PlayButton extends StatelessWidget {
                   validationCallback(false);
                 }
 
-//TODO Implement lose mechanism
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) => new AlertDialog(
-                    title: Text(
-                      isWin ? "You won!" : "You lose! :(",
-                      style: TextStyle(
-                          color: isWin ? ktextGreenColor : ktextRedColor),
-                    ),
-                    content: Text("You current coin amount is: $currentCoins"),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+                if (currentCoins <= 0) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => new AlertDialog(
+                      title: Text(
+                        "You lose all coins! :(",
+                        style: TextStyle(color: ktextRedColor),
                       ),
-                    ],
-                  ),
-                );
+                      content: Text('Unlucky! Do You want play more?'),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Aye sir!"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            restart();
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => new AlertDialog(
+                      title: Text(
+                        isWin ? "You won!" : "You lose! :(",
+                        style: TextStyle(
+                            color: isWin ? ktextGreenColor : ktextRedColor),
+                      ),
+                      content:
+                          Text("You current coin amount is: $currentCoins"),
+                      actions: <Widget>[
+                        FlatButton(
+                          child: Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                }
               }
             : null,
         child: Column(

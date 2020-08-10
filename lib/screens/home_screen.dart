@@ -25,7 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   double reward;
   bool isWin;
   bool isButtonVisible;
+  TextEditingController inputCtrl = TextEditingController();
   BidderService _bidderService = BidderService();
+
+  @override
+  void dispose() {
+    inputCtrl.dispose();
+    super.dispose();
+  }
 
   void validationUpdate(bool val) {
     setState(() {
@@ -55,6 +62,15 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       userCoinsAmount = value;
     });
+  }
+
+  void restartGame() {
+    toggleCoins(100);
+    toggleWinChance(0.5);
+    inputCtrl.text = '';
+
+    _bidderService.saveCoinsInSP(100);
+    setState(() {});
   }
 
   @override
@@ -95,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
               validation: validationUpdate,
               winChance: winChance,
               toggleInputValue: toggleInputValue,
+              inputCtrl: inputCtrl,
             ),
             SizedBox(
               height: 40,
@@ -104,6 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
               rewardCallback: updateReward,
               userBid: userBid,
               winChanceCallback: toggleWinChance,
+              winChance: winChance,
             ),
             SizedBox(
               height: 40,
@@ -138,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
         winChance: winChance,
         userCoinsAmount: userCoinsAmount,
         validationCallback: validationUpdate,
+        restart: restartGame,
       ),
     );
   }

@@ -9,13 +9,15 @@ class InputField extends StatefulWidget {
   final Function toggleInputValue;
   final int userCoinsAmount;
   final double winChance;
+  final TextEditingController inputCtrl;
 
   InputField(
       {this.validation,
       this.userCoinsAmount,
       this.winChance,
       this.rewardPass,
-      this.toggleInputValue});
+      this.toggleInputValue,
+      this.inputCtrl});
   @override
   _InputFieldState createState() => _InputFieldState();
 }
@@ -24,24 +26,16 @@ class _InputFieldState extends State<InputField> {
   BidderService _bidderService = BidderService();
   bool validate;
 
-  final myController = TextEditingController();
-
   getValue() {
-    var text = myController.text;
+    var text = widget.inputCtrl.text;
     if (text != '') {
       widget.toggleInputValue(int.parse(text));
     }
   }
 
   @override
-  void dispose() {
-    myController.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
-    myController.addListener(() {
+    widget.inputCtrl.addListener(() {
       getValue();
     });
     super.initState();
@@ -70,7 +64,7 @@ class _InputFieldState extends State<InputField> {
                 decoration: InputDecoration(
                   hintText: 'Tap here, good luck!',
                 ),
-                controller: myController,
+                controller: widget.inputCtrl,
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 28),
@@ -78,7 +72,7 @@ class _InputFieldState extends State<InputField> {
                   setState(() {
                     var inputValue = int.tryParse(value);
                     if (inputValue != null &&
-                        inputValue < widget.userCoinsAmount) {
+                        inputValue <= widget.userCoinsAmount) {
                       validate = true;
                       widget.validation(validate);
                       int userBid = inputValue;
