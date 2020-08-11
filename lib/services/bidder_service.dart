@@ -55,10 +55,10 @@ class BidderService {
     return RecordViewModel.fromRecord(record);
   }
 
-  Future<List<RecordViewModel>> getAllDb(AppDatabase db) async {
-    List<Record> recordList = await db.recordsDao.getAll();
-    return recordList.map((e) => RecordViewModel.fromRecord(e)).toList();
-  }
+  // Future<List<RecordViewModel>> getAllDb(AppDatabase db) async {
+  //   List<Record> recordList = await db.recordsDao.getAll();
+  //   return recordList.map((e) => RecordViewModel.fromRecord(e)).toList();
+  // }
 
   Stream<List<RecordViewModel>> watchAll(AppDatabase db) {
     return db.recordsDao.watchAll().map(

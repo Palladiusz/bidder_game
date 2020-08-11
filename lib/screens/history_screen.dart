@@ -35,10 +35,8 @@ class HistoryScreen extends StatelessWidget {
                         winChance: e.winChance,
                         date: e.date,
                       ))
-                  .toList()
-                  //TODO: Instead of reversing it here, please implement it in service - sort method in db by ID descending
-                  .reversed
                   .toList(),
+              //TODO: Instead of reversing it here, please implement it in service - sort method in db by ID descending
             );
           }
           return Container();
