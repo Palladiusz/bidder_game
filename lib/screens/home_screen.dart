@@ -110,11 +110,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Text("Aye sir!"),
             onPressed: () {
               Navigator.of(context).pop();
-              restartGame();
             },
           ),
           FlatButton(
-            child: Text("Close"),
+            child: Text("Ok :("),
             onPressed: () {
               Navigator.of(context).pop();
             },
