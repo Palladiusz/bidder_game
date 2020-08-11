@@ -16,7 +16,7 @@ class BidderService {
     if (bidAmount == null || winChance == null) {
       return null;
     }
-    return (bidAmount / winChance) * (1 - _fee);
+    return ((bidAmount / winChance) * (1 - _fee)) - bidAmount;
   }
 
   int tryParseAndValidateUserBid(String bid) {
@@ -25,7 +25,7 @@ class BidderService {
       return null;
     }
 
-    if (currentCoins < userBid) {
+    if (currentCoins < userBid || bid == null) {
       return null;
     }
 
@@ -40,7 +40,7 @@ class BidderService {
     bool isWin = randomNum <= winChance;
     final coinsBefore = currentCoins;
     final reward = calculateReward(userBid, winChance);
-    isWin ? currentCoins += reward.toInt() - userBid : currentCoins -= userBid;
+    isWin ? currentCoins += reward.toInt() : currentCoins -= userBid;
 
     Record record = await insertNewRecord(
       db: db,
