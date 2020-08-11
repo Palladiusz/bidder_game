@@ -103,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           lastGame.isWin ? "You won!" : "You lose! :(",
           style: TextStyle(
-              color: lastGame.isWin ? ktextGreenColor : ktextRedColor),
+              color: lastGame.isWin ? kTextGreenColor : kTextRedColor),
         ),
         content: Text("You current coin amount is: ${vm.userCoinsAmount}"),
         actions: <Widget>[
@@ -124,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context) => new AlertDialog(
         title: Text(
           "You lose all coins! :(",
-          style: TextStyle(color: ktextRedColor),
+          style: TextStyle(color: kTextRedColor),
         ),
         content: Text('Unlucky! Do You want play more?'),
         actions: <Widget>[

@@ -32,7 +32,7 @@ class RecordCard extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            color: isWin ? kbasicGreenColor : kbasicRedColor,
+            color: isWin ? kBasicGreenColor : kBasicRedColor,
             width: double.infinity,
             height: 100,
             child: Row(

@@ -22,7 +22,7 @@ class SliderComponent extends StatelessWidget {
           SliderButton(
             icon: Icon(
               Icons.exposure_neg_1,
-              color: ktextRedColor,
+              color: kTextRedColor,
             ),
             onPress: () {
               if (winChance > 0.02) {
@@ -37,7 +37,7 @@ class SliderComponent extends StatelessWidget {
           SliderButton(
             icon: Icon(
               Icons.exposure_plus_1,
-              color: ktextGreenColor,
+              color: kTextGreenColor,
             ),
             onPress: () {
               if (winChance < 0.99) {

@@ -21,12 +21,12 @@ class GameSummaryWidget extends StatelessWidget {
         Block(
           upperText: 'Win chance:',
           lowerText: '${(winChance * 100).toInt()}%',
-          textColor: winChance > 0.3 ? ktextGreenColor : ktextRedColor,
+          textColor: winChance > 0.3 ? kTextGreenColor : kTextRedColor,
         ),
         Block(
           upperText: 'Reward:',
           lowerText: reward != null ? '${reward.toInt()} coins' : '-- coins',
-          textColor: ktextGreenColor,
+          textColor: kTextGreenColor,
         ),
       ],
     );
