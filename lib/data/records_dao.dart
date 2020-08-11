@@ -18,5 +18,5 @@ class RecordsDao extends DatabaseAccessor<AppDatabase> with _$RecordsDaoMixin {
 
   Future insertRecord(Record entity) => into(records).insert(entity);
   Future updateRecord(Record entity) => update(records).replace(entity);
-  Future deleteRecord(Record entity) => delete(records).delete(entity);
+  Future deleteRecord() => delete(records).go();
 }

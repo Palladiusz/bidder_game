@@ -100,4 +100,8 @@ class BidderService {
     currentCoins = coins ?? 100;
     return coins;
   }
+
+  void deleteAlldb(AppDatabase db) async {
+    await db.recordsDao.deleteRecord();
+  }
 }
