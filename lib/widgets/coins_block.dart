@@ -13,9 +13,6 @@ class CoinsBlock extends StatelessWidget {
       children: <Widget>[
         Column(
           children: <Widget>[
-            SizedBox(
-              height: 15,
-            ),
             ImageIcon(
               AssetImage("icons/coins.png"),
               size: 60.0,

@@ -6,10 +6,10 @@ import 'package:bidder_game/widgets/appbar/main_appbar.dart';
 import 'package:bidder_game/widgets/input/input_field.dart';
 import 'package:bidder_game/widgets/appbar/move_to_history.dart';
 import 'package:bidder_game/widgets/play_button.dart';
+import 'package:bidder_game/widgets/restart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/slider/slider_component.dart';
 import '../constants.dart';
 import '../data/moor_database.dart';
@@ -137,8 +137,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              SizedBox(
-                height: 15,
+              RestartButton(
+                restartCallback: restartGame,
               ),
               FutureBuilder(
                   future: _bidderService.getCoinsFromSP(),
