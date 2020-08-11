@@ -3,7 +3,7 @@ import 'package:bidder_game/services/bidder_service.dart';
 import 'package:bidder_game/widgets/coins_block.dart';
 import 'package:bidder_game/widgets/game_summary_widget/game_summary_widget.dart';
 import 'package:bidder_game/widgets/appbar/main_appbar.dart';
-import 'package:bidder_game/widgets/input_field.dart';
+import 'package:bidder_game/widgets/input/input_field.dart';
 import 'package:bidder_game/widgets/appbar/move_to_history.dart';
 import 'package:bidder_game/widgets/play_button.dart';
 import 'package:flutter/material.dart';
@@ -157,7 +157,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 40,
               ),
-              InputField(inputCtrl: inputCtrl),
+              InputField(
+                inputCtrl: inputCtrl,
+                userBid:
+                    _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+              ),
               SizedBox(
                 height: 40,
               ),
