@@ -39,9 +39,11 @@ class InputField extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPress: () {
-                  if (userBid != null && userBid > 0) {
-                    userBid--;
-                    inputCtrl.text = userBid.toString();
+                  int bid = int.parse(inputCtrl.text);
+
+                  if (bid != null && bid > 0) {
+                    bid--;
+                    inputCtrl.text = bid.toString();
                   }
                 },
               ),
@@ -82,12 +84,14 @@ class InputField extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPress: () {
-                  if (userBid != null) {
-                    userBid++;
-                    inputCtrl.text = userBid.toString();
-                  } else if (userBid == null) {
-                    userBid = 1;
-                    inputCtrl.text = userBid.toString();
+                  if (inputCtrl.text == '') {
+                    inputCtrl.text = '1';
+                  } else {
+                    int bid = int.parse(inputCtrl.text);
+                    if (bid != null) {
+                      bid++;
+                      inputCtrl.text = bid.toString();
+                    }
                   }
                 },
               ),
