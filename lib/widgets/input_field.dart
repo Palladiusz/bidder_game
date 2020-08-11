@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:flutter/services.dart';
 
 class InputField extends StatelessWidget {
   final TextEditingController inputCtrl;
@@ -26,6 +27,7 @@ class InputField extends StatelessWidget {
                 intensity: 0.2,
               ),
               child: TextField(
+                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                   hintText: 'Tap here, good luck!',
                 ),
