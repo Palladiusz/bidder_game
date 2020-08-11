@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     } else {
                       return CoinsBlock(
-                        userCoinsAmount: 0,
+                        userCoinsAmount: vm.userCoinsAmount,
                       );
                     }
                   }),
