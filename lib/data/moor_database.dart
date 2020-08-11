@@ -1,5 +1,6 @@
 import 'package:moor/moor.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+import 'records_dao.dart';
 
 part 'moor_database.g.dart';
 
@@ -14,14 +15,6 @@ class Records extends Table {
   IntColumn get coinsChangeAmount => integer()();
 }
 
-// Datę i czas rozgrywki -
-// Wygrana/Przegrana -
-// Wysokość zakładu -
-// Szansa na wygraną -
-// Saldo przed grą -
-// Saldo po grze -
-// Zmiana salda -
-
 @UseMoor(tables: [Records], daos: [RecordsDao])
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -30,16 +23,4 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
-}
-
-//TODO: Move to separate file records_dao.dart
-@UseDao(tables: [Records])
-class RecordsDao extends DatabaseAccessor<AppDatabase> with _$RecordsDaoMixin {
-  RecordsDao(AppDatabase db) : super(db);
-
-  Future<List<Record>> getAll() => select(records).get();
-  Stream<List<Record>> watchAll() => select(records).watch();
-  Future insertRecord(Record entity) => into(records).insert(entity);
-  Future updateRecord(Record entity) => update(records).replace(entity);
-  Future deleteRecord(Record entity) => delete(records).delete(entity);
 }
