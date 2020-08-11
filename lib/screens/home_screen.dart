@@ -59,8 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
     if (userBid != null) {
       RecordViewModel lastGame =
           await _bidderService.play(vm.winChance, userBid, db);
-      updateViewModel(vm.copyWith(
-          lastGame: lastGame, userCoinsAmount: _bidderService.currentCoins));
+      updateViewModel(
+        vm.copyWith(
+          lastGame: lastGame,
+          userCoinsAmount: _bidderService.currentCoins,
+          isValidateInput: userBid < _bidderService.currentCoins,
+        ),
+      );
       if (_bidderService.currentCoins <= 0) {
         showLooseDialog();
       } else {
