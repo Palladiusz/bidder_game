@@ -25,7 +25,7 @@ class GameSummaryWidget extends StatelessWidget {
         ),
         Block(
           upperText: 'Reward:',
-          lowerText: reward != null ? '${reward.toInt()} coins' : '-- coins',
+          lowerText: reward != null ? '+ ${reward.toInt()} coins' : '-- coins',
           textColor: kTextGreenColor,
         ),
       ],

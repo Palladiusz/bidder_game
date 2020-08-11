@@ -165,10 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 40,
             ),
             GameSummaryWidget(
-                winChance: vm.winChance,
-                reward: _bidderService.calculateReward(
-                    _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
-                    vm.winChance)),
+              winChance: vm.winChance,
+              reward: _bidderService.calculateReward(
+                      _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+                      vm.winChance) -
+                  _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+            ),
             SizedBox(
               height: 30,
             ),
