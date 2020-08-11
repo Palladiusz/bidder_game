@@ -1,16 +1,16 @@
 import 'package:bidder_game/view_models/home_screen_vm.dart';
-import 'package:bidder_game/widgets/bidder_service.dart';
+import 'package:bidder_game/services/bidder_service.dart';
 import 'package:bidder_game/widgets/coins_block.dart';
-import 'package:bidder_game/widgets/game_summary_widget.dart';
-import 'package:bidder_game/widgets/home_appbar.dart';
+import 'package:bidder_game/widgets/game_summary_widget/game_summary_widget.dart';
+import 'package:bidder_game/widgets/appbar/main_appbar.dart';
 import 'package:bidder_game/widgets/input_field.dart';
-import 'package:bidder_game/widgets/move_to_history.dart';
+import 'package:bidder_game/widgets/appbar/move_to_history.dart';
 import 'package:bidder_game/widgets/play_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/slider_component.dart';
+import '../widgets/slider/slider_component.dart';
 import '../constants.dart';
 import '../data/moor_database.dart';
 import '../view_models/record_view_model.dart';

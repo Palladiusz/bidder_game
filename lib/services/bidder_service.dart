@@ -1,16 +1,14 @@
 import 'dart:math';
 
+import 'package:bidder_game/constants.dart';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:bidder_game/view_models/record_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../view_models/record_view_model.dart';
-import '../view_models/record_view_model.dart';
 
-//TODO: Move bidder_service to services folder
 class BidderService {
-  //TODO: Make it private
-  final double fee = 0.02;
+  final double _fee = 0.02;
 
   int currentCoins = 100;
 
@@ -18,7 +16,7 @@ class BidderService {
     if (bidAmount == null || winChance == null) {
       return null;
     }
-    return (bidAmount / winChance) * (1 - fee);
+    return (bidAmount / winChance) * (1 - _fee);
   }
 
   int tryParseAndValidateUserBid(String bid) {
@@ -90,13 +88,12 @@ class BidderService {
 
   void saveCoinsInSP(coinsAmount) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //TODO: Move 'coins' to constants name
-    prefs.setInt('coins', coinsAmount);
+    prefs.setInt(coinsString, coinsAmount);
   }
 
   Future<int> getCoinsFromSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int coins = prefs.getInt('coins');
+    int coins = prefs.getInt(coinsString);
     if (coins == null) {
       saveCoinsInSP(100);
     }

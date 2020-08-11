@@ -1,6 +1,6 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 import 'block.dart';
 
 class GameSummaryWidget extends StatelessWidget {

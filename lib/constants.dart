@@ -6,3 +6,4 @@ const Color kBasicRedColor = Color(0xff810000);
 const Color kTextRedColor = Color(0xff990909);
 const Color kDarkerAccent = Colors.black12;
 const int initialCoins = 100;
+const String coinsString = 'coins';

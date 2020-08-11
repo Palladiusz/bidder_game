@@ -1,6 +1,6 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-import '../constants.dart';
+import '../../constants.dart';
 import 'slider_button.dart';
 import 'slider_widget.dart';
 
