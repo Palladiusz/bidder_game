@@ -127,53 +127,55 @@ class _HomeScreenState extends State<HomeScreen> {
         title: 'Bidder Game',
         actionButton: MoveToHistoryButton(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            SizedBox(
-              height: 15,
-            ),
-            FutureBuilder(
-                future: _bidderService.getCoinsFromSP(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    vm.copyWith(userCoinsAmount: snapshot.data);
-                    return CoinsBlock(
-                      userCoinsAmount: snapshot.data,
-                    );
-                  } else {
-                    return CoinsBlock(
-                      userCoinsAmount: 0,
-                    );
-                  }
-                }),
-            SizedBox(
-              height: 40,
-            ),
-            InputField(inputCtrl: inputCtrl),
-            SizedBox(
-              height: 40,
-            ),
-            SliderComponent(
-              winChance: vm.winChance,
-              onChangeCallback: (value) {
-                updateViewModel(vm.copyWith(winChance: value));
-              },
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            GameSummaryWidget(
-              winChance: vm.winChance,
-              reward: _bidderService.calculateReward(
-                  _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
-                  vm.winChance),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-          ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              SizedBox(
+                height: 15,
+              ),
+              FutureBuilder(
+                  future: _bidderService.getCoinsFromSP(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      vm.copyWith(userCoinsAmount: snapshot.data);
+                      return CoinsBlock(
+                        userCoinsAmount: snapshot.data,
+                      );
+                    } else {
+                      return CoinsBlock(
+                        userCoinsAmount: 0,
+                      );
+                    }
+                  }),
+              SizedBox(
+                height: 40,
+              ),
+              InputField(inputCtrl: inputCtrl),
+              SizedBox(
+                height: 40,
+              ),
+              SliderComponent(
+                winChance: vm.winChance,
+                onChangeCallback: (value) {
+                  updateViewModel(vm.copyWith(winChance: value));
+                },
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              GameSummaryWidget(
+                winChance: vm.winChance,
+                reward: _bidderService.calculateReward(
+                    _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+                    vm.winChance),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: PlayButton(

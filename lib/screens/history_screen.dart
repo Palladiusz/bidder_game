@@ -18,28 +18,30 @@ class HistoryScreen extends StatelessWidget {
       appBar: MyAppBar(
         title: 'History of Records',
       ),
-      body: StreamBuilder(
-        stream: _bidderService.watchAll(db),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<RecordViewModel>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView(
-              shrinkWrap: true,
-              children: snapshot.data
-                  .map((e) => RecordCard(
-                        bid: e.bid,
-                        coinsAfter: e.coinsAfter,
-                        coinsBefore: e.coinsBefore,
-                        coinsDiff: e.coinsDiff,
-                        isWin: e.isWin,
-                        winChance: e.winChance,
-                        date: e.date,
-                      ))
-                  .toList(),
-            );
-          }
-          return Container();
-        },
+      body: SafeArea(
+        child: StreamBuilder(
+          stream: _bidderService.watchAll(db),
+          builder: (BuildContext context,
+              AsyncSnapshot<List<RecordViewModel>> snapshot) {
+            if (snapshot.hasData) {
+              return ListView(
+                shrinkWrap: true,
+                children: snapshot.data
+                    .map((e) => RecordCard(
+                          bid: e.bid,
+                          coinsAfter: e.coinsAfter,
+                          coinsBefore: e.coinsBefore,
+                          coinsDiff: e.coinsDiff,
+                          isWin: e.isWin,
+                          winChance: e.winChance,
+                          date: e.date,
+                        ))
+                    .toList(),
+              );
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }
