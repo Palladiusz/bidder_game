@@ -13,13 +13,12 @@ import 'package:provider/provider.dart';
 
 class HistoryScreen extends StatelessWidget {
   static const String id = '/history_screen';
-  final BidderService _bidderService = BidderService();
 
   @override
   Widget build(BuildContext context) {
     AppDatabase db = Provider.of(context);
     return BlocProvider(
-      create: (context) => HistoryBloc(db: db),
+      create: (context) => HistoryBloc(db: db)..add(LoadHistoryEvent()),
       child: HistoryPage(),
     );
   }

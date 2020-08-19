@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<HistoryBloc>(context);
     return SafeArea(
       child: BlocBuilder<HistoryBloc, HistoryState>(
         builder: (context, state) {
@@ -22,7 +21,8 @@ class HistoryPage extends StatelessWidget {
               ),
               bottomNavigationBar: ClearHistory(
                 onPress: () {
-                  HistoryBloc(db: bloc.db).add(RestartHistoryEvent());
+                  BlocProvider.of<HistoryBloc>(context)
+                      .add(RestartHistoryEvent());
                 },
               ),
             );
