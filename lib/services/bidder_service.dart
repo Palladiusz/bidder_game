@@ -60,6 +60,12 @@ class BidderService {
         (events) => events.map((e) => RecordViewModel.fromRecord(e)).toList());
   }
 
+  Future<List<RecordViewModel>> getAll(AppDatabase db) async {
+    return (await db.recordsDao.getAll())
+        .map((e) => RecordViewModel.fromRecord(e))
+        .toList();
+  }
+
   Future<Record> insertNewRecord(
       {AppDatabase db,
       bid,
