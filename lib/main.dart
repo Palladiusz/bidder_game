@@ -1,3 +1,4 @@
+import 'package:bidder_game/screens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'data/moor_database.dart';
@@ -37,9 +38,9 @@ class MyApp extends StatelessWidget {
             depth: -3,
             intensity: 0.8,
             defaultTextColor: Colors.yellowAccent),
-        initialRoute: HomeScreen.id,
+        initialRoute: HomePage.id,
         routes: {
-          HomeScreen.id: (context) => HomeScreen(),
+          HomePage.id: (context) => HomePage(),
           HistoryScreen.id: (context) => HistoryScreen(),
         },
       ),

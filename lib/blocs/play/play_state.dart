@@ -1,7 +1,7 @@
 part of 'play_bloc.dart';
 
 @immutable
-abstract class PlayStateBase {
+class PlayStateBase {
   final int coins;
 
   PlayStateBase(this.coins);

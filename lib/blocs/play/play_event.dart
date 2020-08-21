@@ -1,13 +1,16 @@
 part of 'play_bloc.dart';
 
 @immutable
-abstract class PlayEventBase {}
+class PlayEventBase {}
 
 class PlayEvent extends PlayEventBase {
   final double winChance;
   final int bidAmount;
+  final HomeScreenViewModel vm;
 
-  PlayEvent(this.winChance, this.bidAmount);
+  PlayEvent(this.winChance, this.bidAmount, this.vm);
 }
 
 class RestartGameEvent extends PlayEventBase {}
+
+class PlayEventInitial extends PlayEventBase {}
