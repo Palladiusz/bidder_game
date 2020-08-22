@@ -10,11 +10,3 @@ class PlayStateBase {
 class PlayState extends PlayStateBase {
   PlayState(int coins) : super(coins);
 }
-
-class PlayWonState extends PlayStateBase {
-  PlayWonState(int coins) : super(coins);
-}
-
-class PlayLoseState extends PlayStateBase {
-  PlayLoseState(int coins) : super(coins);
-}

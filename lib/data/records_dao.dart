@@ -1,5 +1,5 @@
 import 'package:bidder_game/data/moor_database.dart';
-import 'package:bidder_game/view_models/record_view_model.dart';
+
 import 'package:moor/moor.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 

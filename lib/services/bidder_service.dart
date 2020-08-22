@@ -10,7 +10,7 @@ import '../view_models/record_view_model.dart';
 class BidderService {
   final double _fee = 0.02;
 
-  int currentCoins = 100;
+  bool isGamePlaying = false;
 
   double calculateReward(int bidAmount, double winChance) {
     if (bidAmount == null || winChance == null) {
@@ -21,11 +21,7 @@ class BidderService {
 
   int tryParseAndValidateUserBid(String bid) {
     final userBid = int.tryParse(bid);
-    if (currentCoins == null || userBid == null) {
-      return null;
-    }
-
-    if (currentCoins < userBid || bid == null) {
+    if (userBid == null) {
       return null;
     }
 
@@ -42,7 +38,7 @@ class BidderService {
     final reward = calculateReward(userBid, winChance);
     isWin ? coins += reward.toInt() : coins -= userBid;
 
-    Record record = await insertNewRecord(
+    await insertNewRecord(
       db: db,
       bid: userBid,
       coinsBefore: coinsBefore,
@@ -52,7 +48,7 @@ class BidderService {
       winChance: winChance,
     );
     saveCoinsInSP(coins);
-    // return RecordViewModel.fromRecord(record);
+
     return coins;
   }
 
@@ -98,8 +94,9 @@ class BidderService {
     int coins = prefs.getInt(coinsString);
     if (coins == null) {
       saveCoinsInSP(100);
+      coins = 100;
     }
-    currentCoins = coins ?? 100;
+
     return coins;
   }
 

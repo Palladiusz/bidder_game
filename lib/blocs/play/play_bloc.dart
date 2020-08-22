@@ -10,7 +10,7 @@ part 'play_event.dart';
 part 'play_state.dart';
 
 class PlayBloc extends Bloc<PlayEventBase, PlayStateBase> {
-  PlayBloc({this.db}) : super(PlayStateBase(100));
+  PlayBloc({this.db}) : super(PlayState(100));
   BidderService _bidderService = BidderService();
   final AppDatabase db;
 
@@ -19,8 +19,8 @@ class PlayBloc extends Bloc<PlayEventBase, PlayStateBase> {
     PlayEventBase event,
   ) async* {
     if (event is PlayEvent) {
-      yield PlayState(await _playEvent(
-          event.winChance, event.bidAmount, event.vm, state.coins));
+      yield PlayState(await _playEvent(event.winChance, event.bidAmount,
+          event.vm, state.coins, event.updateViewModelCallBack));
     }
     if (event is RestartGameEvent) {
       _bidderService.saveCoinsInSP(100);
@@ -29,19 +29,19 @@ class PlayBloc extends Bloc<PlayEventBase, PlayStateBase> {
     if (event is PlayEventInitial) {
       yield PlayState(await _bidderService.getCoinsFromSP());
     }
-    // TODO: implement mapEventToState
   }
 
   Future<int> _playEvent(
-      winChance, userBid, HomeScreenViewModel vm, coins) async {
+    winChance,
+    userBid,
+    HomeScreenViewModel vm,
+    coins,
+    updateViewModel,
+  ) async {
     int newCoins = await _bidderService.play(winChance, userBid, db, coins);
-    vm.copyWith(isValidateInput: newCoins >= userBid);
+
+    updateViewModel(vm.copyWith(isValidateInput: newCoins >= userBid));
 
     return newCoins;
-  }
-
-  void _resetCoins() {
-    _bidderService.currentCoins = 100;
-    _bidderService.saveCoinsInSP(100);
   }
 }

@@ -11,11 +11,8 @@ import 'package:bidder_game/widgets/restart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:provider/provider.dart';
-import '../widgets/slider/slider_component.dart';
 import '../constants.dart';
-import '../data/moor_database.dart';
-import '../view_models/record_view_model.dart';
+import '../widgets/slider/slider_component.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -31,11 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     inputCtrl.addListener(() {
-      final userBid = _bidderService.tryParseAndValidateUserBid(inputCtrl.text);
-      updateViewModel(vm.copyWith(
-          isValidateInput: userBid != null &&
-              BlocProvider.of<PlayBloc>(context).state.coins >= userBid));
+      validation();
     });
+    _bidderService.isGamePlaying = false;
   }
 
   @override
@@ -44,33 +39,40 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void updateViewModel(HomeScreenViewModel vm) {
+  updateViewModel(HomeScreenViewModel vm) {
     setState(() {
       this.vm = vm;
     });
   }
 
-  // Future showWinDialog(RecordViewModel lastGame) {
-  //   return showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) => new AlertDialog(
-  //       title: Text(
-  //         lastGame.isWin ? "You won!" : "You lose! :(",
-  //         style: TextStyle(
-  //             color: lastGame.isWin ? kTextGreenColor : kTextRedColor),
-  //       ),
-  //       content: Text("You current coin amount is: ${vm.userCoinsAmount}"),
-  //       actions: <Widget>[
-  //         FlatButton(
-  //           child: Text("Close"),
-  //           onPressed: () {
-  //             Navigator.of(context).pop();
-  //           },
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  void validation() {
+    final userBid = _bidderService.tryParseAndValidateUserBid(inputCtrl.text);
+    int coins = BlocProvider.of<PlayBloc>(context).state.coins;
+    updateViewModel(vm.copyWith(
+      isValidateInput: userBid != null && userBid != 0 && coins >= userBid,
+    ));
+  }
+
+  Future showPlayDialog({bool isWin}) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) => new AlertDialog(
+        title: Text(
+          isWin ? "You won!" : "You lose! :(",
+          style: TextStyle(color: isWin ? kTextGreenColor : kTextRedColor),
+        ),
+        content: Text("Gratulations! Good luck in next try ;)"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("Close"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
   Future showLooseDialog() {
     return showDialog(
@@ -101,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final db = Provider.of<AppDatabase>(context);
     return Scaffold(
       appBar: MyAppBar(
         title: 'Bidder Game',
@@ -110,22 +111,29 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: BlocConsumer<PlayBloc, PlayStateBase>(
-            listener: (context, state) {
-              int userBid =
-                  _bidderService.tryParseAndValidateUserBid(inputCtrl.text);
-              setState(() {
-                updateViewModel(vm.copyWith(
-                    isValidateInput: userBid != null &&
-                        BlocProvider.of<PlayBloc>(context).state.coins >=
-                            userBid));
-              });
+            listenWhen: (previous, current) {
+              if (_bidderService.isGamePlaying == true) {
+                if (previous.coins < current.coins) {
+                  showPlayDialog(isWin: true);
+                } else if (current.coins <= 0) {
+                  showLooseDialog();
+                  updateViewModel(vm.copyWith(isValidateInput: false));
+                  _bidderService.isGamePlaying = false;
+                } else if (previous.coins > current.coins &&
+                    current.coins > 0) {
+                  showPlayDialog(isWin: false);
+                }
+              }
+              return;
             },
+            listener: (context, state) async {},
             builder: (context, state) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RestartButton(
                     restartCallback: () {
+                      _bidderService.isGamePlaying = false;
                       BlocProvider.of<PlayBloc>(context)
                           .add(RestartGameEvent());
                       updateViewModel(vm.copyWith(winChance: 0.5));
@@ -173,12 +181,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       bottomNavigationBar: PlayButton(
         isInputValid: vm.isValidateInput,
-        playTapped: () {
+        playTapped: () async {
+          _bidderService.isGamePlaying = true;
           BlocProvider.of<PlayBloc>(context).add(
             PlayEvent(
-              vm.winChance,
-              _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
-              vm,
+              winChance: vm.winChance,
+              bidAmount:
+                  _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+              vm: vm,
+              updateViewModelCallBack: updateViewModel,
             ),
           );
         },
