@@ -20,6 +20,17 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   Stream<HistoryState> mapEventToState(
     HistoryEvent event,
   ) async* {
+    //TODO Review: Please try to think how state's can flow from bloc, here
+    //TODO as you can see, we always fetch records, we do it for every
+    //TODO so commented code is cleaner than yours :).
+
+    //Also YOU must await your deleteAllDb call, imagine if that would be very
+    //time consuming operation, so delete records could be completed AFTER fetching..
+    // if (event is RestartHistoryEvent) {
+    //   await _bidderService.deleteAlldb(db);
+    // }
+    // yield HistoryLoadedState(await _fetchRecords(db));
+
     if (event is LoadHistoryEvent) {
       yield HistoryLoadedState(await _fetchRecords(db));
     }
@@ -31,8 +42,11 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
 }
 
 Future<List<RecordCard>> _fetchRecords(db) async {
+  //TODO Review: wtf is this? you have globally created service in bloc.
   BidderService _bidderService = BidderService();
 
+  //TODO: instead of await (await list) you can await getAll(db) call here..
+  //TODO: also you dont have to manually declare type of every variable, just use var :)
   Future<List<RecordViewModel>> list = _bidderService.getAll(db);
   return (await list)
       .map((e) => RecordCard(

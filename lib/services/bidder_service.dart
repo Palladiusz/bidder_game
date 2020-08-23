@@ -10,8 +10,6 @@ import '../view_models/record_view_model.dart';
 class BidderService {
   final double _fee = 0.02;
 
-  bool isGamePlaying = false;
-
   double calculateReward(int bidAmount, double winChance) {
     if (bidAmount == null || winChance == null) {
       return null;
@@ -100,7 +98,7 @@ class BidderService {
     return coins;
   }
 
-  void deleteAlldb(AppDatabase db) async {
+  Future<dynamic> deleteAlldb(AppDatabase db) async {
     await db.recordsDao.deleteRecord();
   }
 }

@@ -4,6 +4,7 @@ import 'records_dao.dart';
 
 part 'moor_database.g.dart';
 
+//TODO Review: Please declare Records table in separate file
 class Records extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime()();

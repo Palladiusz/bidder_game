@@ -21,7 +21,12 @@ class RecordsDao extends DatabaseAccessor<AppDatabase> with _$RecordsDaoMixin {
         .watch();
   }
 
+  //TODO Review: Please ALWAYS declare of type returned by Future, now it is Future<dynamic> which is bad
   Future insertRecord(Record entity) => into(records).insert(entity);
+
+  //TODO Review: Please ALWAYS declare of type returned by Future, now it is Future<dynamic> which is bad
   Future updateRecord(Record entity) => update(records).replace(entity);
+
+  //TODO Review: Please ALWAYS declare of type returned by Future, now it is Future<dynamic> which is bad
   Future deleteRecord() => delete(records).go();
 }

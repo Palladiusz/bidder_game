@@ -10,7 +10,7 @@ part 'play_event.dart';
 part 'play_state.dart';
 
 class PlayBloc extends Bloc<PlayEventBase, PlayStateBase> {
-  PlayBloc({this.db}) : super(PlayState(100));
+  PlayBloc({this.db}) : super(PlayLoadingState(null));
   BidderService _bidderService = BidderService();
   final AppDatabase db;
 
@@ -22,10 +22,12 @@ class PlayBloc extends Bloc<PlayEventBase, PlayStateBase> {
       yield PlayState(await _playEvent(event.winChance, event.bidAmount,
           event.vm, state.coins, event.updateViewModelCallBack));
     }
+    //TODO Review: Please use ELSE IF now you make 3 if operations, with if else you will make only 1.
     if (event is RestartGameEvent) {
       _bidderService.saveCoinsInSP(100);
       yield PlayState(100);
     }
+    //TODO Review: Please use ELSE IF now you make 3 if operations, with if else you will make only 1.
     if (event is PlayEventInitial) {
       yield PlayState(await _bidderService.getCoinsFromSP());
     }

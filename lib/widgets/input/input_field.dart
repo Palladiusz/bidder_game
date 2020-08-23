@@ -7,6 +7,8 @@ class InputField extends StatelessWidget {
   final TextEditingController inputCtrl;
 
   int userBid;
+
+  //TODO Review: This is not used at all?
   final Function onChangeCallback;
 
   InputField({

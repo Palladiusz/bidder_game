@@ -20,11 +20,7 @@ class PlayButton extends StatelessWidget {
           lightSource: LightSource.top,
           color: kDarkerAccent,
         ),
-        onPressed: isInputValid
-            ? () {
-                playTapped();
-              }
-            : null,
+        onPressed: isInputValid ? playTapped : null,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

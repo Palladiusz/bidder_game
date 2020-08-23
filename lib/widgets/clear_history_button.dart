@@ -2,6 +2,7 @@ import 'package:bidder_game/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
+//TODO Review: add some suffix to ClearHistory to better indicate that this is widget, now it sounds like some kind of event..
 class ClearHistory extends StatelessWidget {
   final Function onPress;
   const ClearHistory({this.onPress});

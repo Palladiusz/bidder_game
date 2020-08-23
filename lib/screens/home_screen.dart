@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
     inputCtrl.addListener(() {
       validation();
     });
-    _bidderService.isGamePlaying = false;
   }
 
   @override
@@ -111,14 +110,19 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: BlocConsumer<PlayBloc, PlayStateBase>(
+            //TODO Review: XDDDDDDDDDD
+            //TODO Review: Tutaj juz musze po polsku xd
+            //TODO Review: listenWhen to parametr który decyduje KIEDY ma odpalać listenera
+            //TODO Review: czyli to ma zwrócić true lub false
+            //TODO Review: A cała akcja ma być w listener: ktory masz pusty..
+            //TODO Review: listenWhen ma sprawdzać czy current to PlayState i tyle.
             listenWhen: (previous, current) {
-              if (_bidderService.isGamePlaying == true) {
+              if (current is PlayState) {
                 if (previous.coins < current.coins) {
                   showPlayDialog(isWin: true);
                 } else if (current.coins <= 0) {
                   showLooseDialog();
                   updateViewModel(vm.copyWith(isValidateInput: false));
-                  _bidderService.isGamePlaying = false;
                 } else if (previous.coins > current.coins &&
                     current.coins > 0) {
                   showPlayDialog(isWin: false);
@@ -126,14 +130,15 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               return;
             },
-            listener: (context, state) async {},
+            listener: (context, state) async {
+              //TODO Review: fix plox
+            },
             builder: (context, state) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RestartButton(
                     restartCallback: () {
-                      _bidderService.isGamePlaying = false;
                       BlocProvider.of<PlayBloc>(context)
                           .add(RestartGameEvent());
                       updateViewModel(vm.copyWith(winChance: 0.5));
@@ -182,13 +187,13 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: PlayButton(
         isInputValid: vm.isValidateInput,
         playTapped: () async {
-          _bidderService.isGamePlaying = true;
           BlocProvider.of<PlayBloc>(context).add(
             PlayEvent(
               winChance: vm.winChance,
               bidAmount:
                   _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
               vm: vm,
+              //TODO Tomasz: popraw to, usun ten callback i ten updateviewmodel bo to jakiś scam xd
               updateViewModelCallBack: updateViewModel,
             ),
           );
