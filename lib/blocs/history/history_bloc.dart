@@ -31,32 +31,29 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
     // }
     // yield HistoryLoadedState(await _fetchRecords(db));
 
+    List<RecordCard> records = await _fetchRecords(db);
     if (event is LoadHistoryEvent) {
-      yield HistoryLoadedState(await _fetchRecords(db));
+      yield HistoryLoadedState(records);
     }
     if (event is RestartHistoryEvent) {
-      _bidderService.deleteAlldb(db);
-      yield HistoryLoadedState(await _fetchRecords(db));
+      await _bidderService.deleteAlldb(db);
+      yield HistoryLoadedState(records);
     }
   }
-}
 
-Future<List<RecordCard>> _fetchRecords(db) async {
-  //TODO Review: wtf is this? you have globally created service in bloc.
-  BidderService _bidderService = BidderService();
-
-  //TODO: instead of await (await list) you can await getAll(db) call here..
-  //TODO: also you dont have to manually declare type of every variable, just use var :)
-  Future<List<RecordViewModel>> list = _bidderService.getAll(db);
-  return (await list)
-      .map((e) => RecordCard(
-            bid: e.bid,
-            coinsAfter: e.coinsAfter,
-            coinsBefore: e.coinsBefore,
-            coinsDiff: e.coinsDiff,
-            isWin: e.isWin,
-            winChance: e.winChance,
-            date: e.date,
-          ))
-      .toList();
+  Future<List<RecordCard>> _fetchRecords(db) async {
+    //TODO: also you dont have to manually declare type of every variable, just use var :)
+    List<RecordViewModel> list = await _bidderService.getAll(db);
+    return list
+        .map((e) => RecordCard(
+              bid: e.bid,
+              coinsAfter: e.coinsAfter,
+              coinsBefore: e.coinsBefore,
+              coinsDiff: e.coinsDiff,
+              isWin: e.isWin,
+              winChance: e.winChance,
+              date: e.date,
+            ))
+        .toList();
+  }
 }

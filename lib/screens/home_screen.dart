@@ -117,22 +117,35 @@ class _HomeScreenState extends State<HomeScreen> {
             //TODO Review: A cała akcja ma być w listener: ktory masz pusty..
             //TODO Review: listenWhen ma sprawdzać czy current to PlayState i czy jest jakiś lastGame dostępny i tyle.
             listenWhen: (previous, current) {
-              if (current is PlayState && current.vm.lastGame != null) {
-                updateViewModel(current.vm);
-                if ((previous?.coins ?? 0) < current.coins) {
-                  showPlayDialog(isWin: true);
-                } else if (current.coins <= 0) {
-                  showLooseDialog();
-                  updateViewModel(vm.copyWith(isValidateInput: false));
-                } else if (previous.coins > current.coins &&
-                    current.coins > 0) {
-                  showPlayDialog(isWin: false);
-                }
-              }
-              return;
+              // if (current is PlayState && current.vm.lastGame != null) {
+              //   updateViewModel(current.vm);
+              //   if ((previous?.coins ?? 0) < current.coins) {
+              //     showPlayDialog(isWin: true);
+              //   } else if (current.coins <= 0) {
+              //     showLooseDialog();
+              //     updateViewModel(vm.copyWith(isValidateInput: false));
+              //   } else if (previous.coins > current.coins &&
+              //       current.coins > 0) {
+              //     showPlayDialog(isWin: false);
+              //   }
+              // }
+
+              return (current is PlayState && current.vm.lastGame != null);
             },
             listener: (context, state) async {
               //TODO Review: fix plox
+              if (state is PlayState) {
+                var lastGame = state.vm.lastGame;
+                int coins = int.parse(lastGame.coinsAfter);
+                updateViewModel(state.vm);
+                if (lastGame.isWin == true) {
+                  showPlayDialog(isWin: true);
+                } else if (coins <= 0) {
+                  showLooseDialog();
+                } else if (lastGame.isWin == false && coins > 0) {
+                  showPlayDialog(isWin: false);
+                }
+              }
             },
             builder: (context, state) {
               return Column(

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:bidder_game/services/bidder_service.dart';
 import 'package:bidder_game/view_models/home_screen_vm.dart';
-import 'package:bidder_game/view_models/record_view_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
