@@ -21,18 +21,14 @@ class PlayBloc extends Bloc<PlayEventBase, PlayStateBase> {
   ) async* {
     if (event is PlayEvent) {
       yield* _playTheGame(event);
-    }
-    //TODO Review: Please use ELSE IF now you make 3 if operations, with if else you will make only 1.
-    if (event is RestartGameEvent) {
+    } else if (event is RestartGameEvent) {
       _bidderService.saveCoinsInSP(100);
       yield PlayState(
         100,
         HomeScreenViewModel(
             isValidateInput: false, lastGame: null, winChance: 0.5),
       );
-    }
-    //TODO Review: Please use ELSE IF now you make 3 if operations, with if else you will make only 1.
-    if (event is PlayEventInitial) {
+    } else if (event is PlayEventInitial) {
       yield PlayState(
         await _bidderService.getCoinsFromSP(),
         HomeScreenViewModel(

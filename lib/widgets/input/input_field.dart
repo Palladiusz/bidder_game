@@ -8,14 +8,10 @@ class InputField extends StatelessWidget {
 
   int userBid;
 
-  //TODO Review: This is not used at all?
-  final Function onChangeCallback;
-
   InputField({
     Key key,
     this.inputCtrl,
     this.userBid,
-    this.onChangeCallback,
   }) : super(key: key);
 
   @override

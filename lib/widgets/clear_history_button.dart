@@ -1,11 +1,11 @@
+import 'package:bidder_game/blocs/blocs.dart';
 import 'package:bidder_game/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
-//TODO Review: add some suffix to ClearHistory to better indicate that this is widget, now it sounds like some kind of event..
-class ClearHistory extends StatelessWidget {
-  final Function onPress;
-  const ClearHistory({this.onPress});
+class ClearHistoryButton extends StatelessWidget {
+  const ClearHistoryButton();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,9 @@ class ClearHistory extends StatelessWidget {
           lightSource: LightSource.top,
           color: kDarkerAccent,
         ),
-        onPressed: onPress,
+        onPressed: () {
+          BlocProvider.of<HistoryBloc>(context).add(RestartHistoryEvent());
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
