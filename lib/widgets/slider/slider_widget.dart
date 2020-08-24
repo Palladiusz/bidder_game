@@ -1,4 +1,6 @@
+import 'package:bidder_game/blocs/play/play_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class SliderWidget extends StatelessWidget {
@@ -26,7 +28,10 @@ class SliderWidget extends StatelessWidget {
       value: value,
       min: 0.01,
       max: 0.99,
-      onChanged: onChangeCallback,
+      onChanged: (value) {
+        BlocProvider.of<PlayBloc>(context)
+            .add(PlayEventAdjustWinChance(winChance: value));
+      },
     ));
   }
 }

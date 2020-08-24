@@ -1,5 +1,4 @@
 import 'package:bidder_game/blocs/play/play_bloc.dart';
-import 'package:bidder_game/view_models/home_screen_vm.dart';
 import 'package:bidder_game/services/bidder_service.dart';
 import 'package:bidder_game/widgets/coins_block.dart';
 import 'package:bidder_game/widgets/game_summary_widget/game_summary_widget.dart';
@@ -20,15 +19,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  BidderService _bidderService = BidderService();
+  var _bidderService = BidderService();
   TextEditingController inputCtrl = TextEditingController();
-  HomeScreenViewModel vm = HomeScreenViewModel();
 
   @override
   void initState() {
     super.initState();
     inputCtrl.addListener(() {
-      validation();
+      BlocProvider.of<PlayBloc>(context).add(
+        PlayEventValidate(
+          _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+        ),
+      );
     });
   }
 
@@ -36,20 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     inputCtrl.dispose();
     super.dispose();
-  }
-
-  updateViewModel(HomeScreenViewModel vm) {
-    setState(() {
-      this.vm = vm;
-    });
-  }
-
-  void validation() {
-    final userBid = _bidderService.tryParseAndValidateUserBid(inputCtrl.text);
-    int coins = BlocProvider.of<PlayBloc>(context).state.coins;
-    updateViewModel(vm.copyWith(
-      isValidateInput: userBid != null && userBid != 0 && coins >= userBid,
-    ));
   }
 
   Future showPlayDialog({bool isWin}) {
@@ -111,13 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           child: BlocConsumer<PlayBloc, PlayStateBase>(
             listenWhen: (previous, current) {
-              return (current is PlayState && current.vm.lastGame != null);
+              return (current is PlayState && current.lastGame != null);
             },
             listener: (context, state) async {
               if (state is PlayState) {
-                var lastGame = state.vm.lastGame;
+                var lastGame = state.lastGame;
                 int coins = int.parse(lastGame.coinsAfter);
-                updateViewModel(state.vm);
+
                 if (lastGame.isWin == true) {
                   showPlayDialog(isWin: true);
                 } else if (coins <= 0) {
@@ -135,7 +123,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     restartCallback: () {
                       BlocProvider.of<PlayBloc>(context)
                           .add(RestartGameEvent());
-                      updateViewModel(vm.copyWith(winChance: 0.5));
                       inputCtrl.text = '';
                     },
                   ),
@@ -147,27 +134,22 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   InputField(
                     inputCtrl: inputCtrl,
-                    userBid: _bidderService
-                        .tryParseAndValidateUserBid(inputCtrl.text),
                   ),
                   SizedBox(
                     height: 40,
                   ),
                   SliderComponent(
-                    winChance: vm.winChance,
-                    onChangeCallback: (value) {
-                      updateViewModel(vm.copyWith(winChance: value));
-                    },
+                    winChance: state.winChance,
                   ),
                   SizedBox(
                     height: 40,
                   ),
                   GameSummaryWidget(
-                    winChance: vm.winChance,
+                    winChance: state.winChance,
                     reward: _bidderService.calculateReward(
                         _bidderService
                             .tryParseAndValidateUserBid(inputCtrl.text),
-                        vm.winChance),
+                        state.winChance),
                   ),
                   SizedBox(
                     height: 30,
@@ -178,15 +160,19 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: PlayButton(
-        isInputValid: vm?.isValidateInput == true,
-        playTapped: () async {
-          BlocProvider.of<PlayBloc>(context).add(
-            PlayEvent(
-              winChance: vm.winChance,
-              bidAmount:
-                  _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
-            ),
+      bottomNavigationBar: BlocBuilder<PlayBloc, PlayStateBase>(
+        builder: (context, state) {
+          return PlayButton(
+            isInputValid: state.isValidateInput,
+            playTapped: () async {
+              BlocProvider.of<PlayBloc>(context).add(
+                PlayEvent(
+                  winChance: state.winChance,
+                  bidAmount:
+                      _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
+                ),
+              );
+            },
           );
         },
       ),

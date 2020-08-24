@@ -6,12 +6,9 @@ import 'package:flutter/services.dart';
 class InputField extends StatelessWidget {
   final TextEditingController inputCtrl;
 
-  int userBid;
-
   InputField({
     Key key,
     this.inputCtrl,
-    this.userBid,
   }) : super(key: key);
 
   @override
@@ -37,9 +34,15 @@ class InputField extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPress: () {
+                  if (inputCtrl.text == '') {
+                    inputCtrl.text = '0';
+                  }
                   int bid = int.parse(inputCtrl.text);
 
-                  if (bid != null && bid > 0) {
+                  if (bid == null || bid < 0) {
+                    bid = 0;
+                    inputCtrl.text = bid.toString();
+                  } else if (bid != null && bid > 0) {
                     bid--;
                     inputCtrl.text = bid.toString();
                   }

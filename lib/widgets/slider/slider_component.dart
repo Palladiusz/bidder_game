@@ -1,3 +1,5 @@
+import 'package:bidder_game/blocs/play/play_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import '../../constants.dart';
@@ -17,8 +19,9 @@ class SliderComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(children: [
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: [
           SliderButton(
             icon: Icon(
               Icons.exposure_neg_1,
@@ -26,7 +29,8 @@ class SliderComponent extends StatelessWidget {
             ),
             onPress: () {
               if (winChance > 0.02) {
-                onChangeCallback(winChance - 0.01);
+                BlocProvider.of<PlayBloc>(context)
+                    .add(PlayEventAdjustWinChance(winChance: winChance - 0.01));
               }
             },
           ),
@@ -41,10 +45,13 @@ class SliderComponent extends StatelessWidget {
             ),
             onPress: () {
               if (winChance < 0.99) {
-                onChangeCallback(winChance + 0.01);
+                BlocProvider.of<PlayBloc>(context)
+                    .add(PlayEventAdjustWinChance(winChance: winChance + 0.01));
               }
             },
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }

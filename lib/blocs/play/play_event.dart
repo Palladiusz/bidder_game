@@ -13,3 +13,15 @@ class PlayEvent extends PlayEventBase {
 class RestartGameEvent extends PlayEventBase {}
 
 class PlayEventInitial extends PlayEventBase {}
+
+class PlayEventAdjustWinChance extends PlayEventBase {
+  final double winChance;
+
+  PlayEventAdjustWinChance({this.winChance});
+}
+
+class PlayEventValidate extends PlayEventBase {
+  final int bidAmount;
+
+  PlayEventValidate(this.bidAmount);
+}
