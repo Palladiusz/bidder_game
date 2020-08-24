@@ -26,7 +26,7 @@ class BidderService {
     return userBid;
   }
 
-  Future<int> play(
+  Future<RecordViewModel> play(
       double winChance, int userBid, AppDatabase db, int coins) async {
     Random random = new Random();
     var randomNum = random.nextDouble();
@@ -36,7 +36,7 @@ class BidderService {
     final reward = calculateReward(userBid, winChance);
     isWin ? coins += reward.toInt() : coins -= userBid;
 
-    await insertNewRecord(
+    final record = await insertNewRecord(
       db: db,
       bid: userBid,
       coinsBefore: coinsBefore,
@@ -45,9 +45,10 @@ class BidderService {
       isWin: isWin,
       winChance: winChance,
     );
+
     saveCoinsInSP(coins);
 
-    return coins;
+    return RecordViewModel.fromRecord(record);
   }
 
   Stream<List<RecordViewModel>> watchAll(AppDatabase db) {

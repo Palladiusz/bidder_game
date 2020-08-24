@@ -115,10 +115,11 @@ class _HomeScreenState extends State<HomeScreen> {
             //TODO Review: listenWhen to parametr który decyduje KIEDY ma odpalać listenera
             //TODO Review: czyli to ma zwrócić true lub false
             //TODO Review: A cała akcja ma być w listener: ktory masz pusty..
-            //TODO Review: listenWhen ma sprawdzać czy current to PlayState i tyle.
+            //TODO Review: listenWhen ma sprawdzać czy current to PlayState i czy jest jakiś lastGame dostępny i tyle.
             listenWhen: (previous, current) {
-              if (current is PlayState) {
-                if (previous.coins < current.coins) {
+              if (current is PlayState && current.vm.lastGame != null) {
+                updateViewModel(current.vm);
+                if ((previous?.coins ?? 0) < current.coins) {
                   showPlayDialog(isWin: true);
                 } else if (current.coins <= 0) {
                   showLooseDialog();
@@ -185,16 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: PlayButton(
-        isInputValid: vm.isValidateInput,
+        isInputValid: vm?.isValidateInput == true,
         playTapped: () async {
           BlocProvider.of<PlayBloc>(context).add(
             PlayEvent(
               winChance: vm.winChance,
               bidAmount:
                   _bidderService.tryParseAndValidateUserBid(inputCtrl.text),
-              vm: vm,
-              //TODO Tomasz: popraw to, usun ten callback i ten updateviewmodel bo to jakiś scam xd
-              updateViewModelCallBack: updateViewModel,
             ),
           );
         },

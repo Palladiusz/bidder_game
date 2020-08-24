@@ -14,5 +14,7 @@ class PlayLoadingState extends PlayStateBase {
 }
 
 class PlayState extends PlayStateBase {
-  PlayState(int coins) : super(coins);
+  final HomeScreenViewModel vm;
+
+  PlayState(int coins, this.vm) : super(coins);
 }

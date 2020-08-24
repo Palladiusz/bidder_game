@@ -6,15 +6,8 @@ class PlayEventBase {}
 class PlayEvent extends PlayEventBase {
   final double winChance;
   final int bidAmount;
-  final HomeScreenViewModel vm;
-  final Function updateViewModelCallBack;
 
-  PlayEvent({
-    this.winChance,
-    this.bidAmount,
-    this.vm,
-    this.updateViewModelCallBack,
-  });
+  PlayEvent({this.winChance, this.bidAmount});
 }
 
 class RestartGameEvent extends PlayEventBase {}
