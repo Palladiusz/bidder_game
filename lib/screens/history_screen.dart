@@ -1,4 +1,4 @@
-import 'package:bidder_game/blocs/blocs.dart';
+import 'package:bidder_game/blocs/history/history_bloc.dart';
 import 'package:bidder_game/screens/history_page.dart';
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:flutter/material.dart';

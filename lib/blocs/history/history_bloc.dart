@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bidder_game/data/moor_database.dart';
 import 'package:bidder_game/services/bidder_service.dart';
-import 'package:bidder_game/view_models/record_view_model.dart';
 import 'package:bidder_game/widgets/record_card/record_card.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -13,37 +12,21 @@ part 'history_state.dart';
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc({@required this.db}) : super(HistoryLoadedState([]));
-  BidderService _bidderService = BidderService();
+  final _bidderService = BidderService();
   final AppDatabase db;
 
   @override
   Stream<HistoryState> mapEventToState(
     HistoryEvent event,
   ) async* {
-    //TODO Review: Please try to think how state's can flow from bloc, here
-    //TODO as you can see, we always fetch records, we do it for every
-    //TODO so commented code is cleaner than yours :).
-
-    //Also YOU must await your deleteAllDb call, imagine if that would be very
-    //time consuming operation, so delete records could be completed AFTER fetching..
-    // if (event is RestartHistoryEvent) {
-    //   await _bidderService.deleteAlldb(db);
-    // }
-    // yield HistoryLoadedState(await _fetchRecords(db));
-
-    List<RecordCard> records = await _fetchRecords(db);
-    if (event is LoadHistoryEvent) {
-      yield HistoryLoadedState(records);
-    }
     if (event is RestartHistoryEvent) {
       await _bidderService.deleteAlldb(db);
-      yield HistoryLoadedState(records);
     }
+    yield HistoryLoadedState(await _fetchRecords(db));
   }
 
   Future<List<RecordCard>> _fetchRecords(db) async {
-    //TODO: also you dont have to manually declare type of every variable, just use var :)
-    List<RecordViewModel> list = await _bidderService.getAll(db);
+    var list = await _bidderService.getAll(db);
     return list
         .map((e) => RecordCard(
               bid: e.bid,

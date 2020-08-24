@@ -1,4 +1,4 @@
-import 'package:bidder_game/blocs/blocs.dart';
+import 'package:bidder_game/blocs/history/history_bloc.dart';
 import 'package:bidder_game/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

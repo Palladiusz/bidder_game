@@ -1,4 +1,4 @@
-import 'package:bidder_game/blocs/blocs.dart';
+import 'package:bidder_game/blocs/play/play_bloc.dart';
 import 'package:bidder_game/view_models/home_screen_vm.dart';
 import 'package:bidder_game/services/bidder_service.dart';
 import 'package:bidder_game/widgets/coins_block.dart';
@@ -110,30 +110,10 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: BlocConsumer<PlayBloc, PlayStateBase>(
-            //TODO Review: XDDDDDDDDDD
-            //TODO Review: Tutaj juz musze po polsku xd
-            //TODO Review: listenWhen to parametr który decyduje KIEDY ma odpalać listenera
-            //TODO Review: czyli to ma zwrócić true lub false
-            //TODO Review: A cała akcja ma być w listener: ktory masz pusty..
-            //TODO Review: listenWhen ma sprawdzać czy current to PlayState i czy jest jakiś lastGame dostępny i tyle.
             listenWhen: (previous, current) {
-              // if (current is PlayState && current.vm.lastGame != null) {
-              //   updateViewModel(current.vm);
-              //   if ((previous?.coins ?? 0) < current.coins) {
-              //     showPlayDialog(isWin: true);
-              //   } else if (current.coins <= 0) {
-              //     showLooseDialog();
-              //     updateViewModel(vm.copyWith(isValidateInput: false));
-              //   } else if (previous.coins > current.coins &&
-              //       current.coins > 0) {
-              //     showPlayDialog(isWin: false);
-              //   }
-              // }
-
               return (current is PlayState && current.vm.lastGame != null);
             },
             listener: (context, state) async {
-              //TODO Review: fix plox
               if (state is PlayState) {
                 var lastGame = state.vm.lastGame;
                 int coins = int.parse(lastGame.coinsAfter);

@@ -7,8 +7,6 @@ abstract class PlayStateBase {
   PlayStateBase(this.coins);
 }
 
-//TODO Review: Dodałem nowy stan, bo jest to lepsze niz dodawanie zmienniej w serwisie isPlaying..
-//TODO Review: Jak to przeczytasz to zglos sie do mnie bo mam watpliwosci czy rozumiesz jak zachowują się obiekty..
 class PlayLoadingState extends PlayStateBase {
   PlayLoadingState(int coins) : super(coins);
 }
